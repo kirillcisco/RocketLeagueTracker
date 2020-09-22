@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "E89NaGNudkm0ljwTF8WegV9G2QcCRl1qb3U0GX9VVkRnMCiGRSoSouIpDZn9BF5MKkpVPBR+On25YbwylM0A6A==",
+  "success": true,
+  "projectFilePath": "C:\\source\\RLTracker\\Taracker.Common\\Common.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kevin\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\sixlabors.imagesharp\\1.0.1\\sixlabors.imagesharp.1.0.1.nupkg.sha512"
+  ],
+  "logs": []
+}

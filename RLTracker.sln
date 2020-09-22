@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tracker", "Tracker\Tracker.csproj", "{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Taracker.Common\Common.csproj", "{A17599C7-D3F7-4567-8762-844AB4CCBFDE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1EF3585-2FC6-4FB4-932E-B0949A384A80}
+	EndGlobalSection
+EndGlobal

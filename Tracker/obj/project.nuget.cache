@@ -1,0 +1,27 @@
+{
+  "version": 2,
+  "dgSpecHash": "7UKQPJvUYU46YYSnVv2FyLXxPCXe0mNOp3nFCoDYFGBMa3B6WmTHNlDMlWVkzbt7bDyd12iwB/OqEeWlZygHSQ==",
+  "success": true,
+  "projectFilePath": "C:\\source\\RLTracker\\Tracker\\Tracker.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\kevin\\.nuget\\packages\\cachedimage\\0.1.13\\cachedimage.0.1.13.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\controlzex\\4.3.2\\controlzex.4.3.2.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\mahapps.metro\\2.2.0\\mahapps.metro.2.2.0.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.19\\microsoft.xaml.behaviors.wpf.1.1.19.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\sixlabors.imagesharp\\1.0.1\\sixlabors.imagesharp.1.0.1.nupkg.sha512",
+    "C:\\Users\\kevin\\.nuget\\packages\\system.text.json\\4.7.2\\system.text.json.4.7.2.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Package 'CachedImage 0.1.13' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8' instead of the project target framework '.NETCoreApp,Version=v3.1'. This package may not be fully compatible with your project.",
+      "libraryId": "CachedImage",
+      "targetGraphs": [
+        ".NETCoreApp,Version=v3.1"
+      ]
+    }
+  ]
+}
