@@ -71,6 +71,7 @@ namespace Tracker
                     ViewModelMapper.TrackedUser(item, ref instance);
                 }
             }
+            vm.LastUpdate = DateTime.Now;
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)

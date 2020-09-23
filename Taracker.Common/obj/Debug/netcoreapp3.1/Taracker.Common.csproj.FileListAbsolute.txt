@@ -1,9 +1,0 @@
-C:\source\RLTracker\Taracker.Common\bin\Debug\netcoreapp3.1\Common.deps.json
-C:\source\RLTracker\Taracker.Common\bin\Debug\netcoreapp3.1\Common.dll
-C:\source\RLTracker\Taracker.Common\bin\Debug\netcoreapp3.1\Common.pdb
-C:\source\RLTracker\Taracker.Common\obj\Debug\netcoreapp3.1\Taracker.Common.AssemblyInfoInputs.cache
-C:\source\RLTracker\Taracker.Common\obj\Debug\netcoreapp3.1\Taracker.Common.AssemblyInfo.cs
-C:\source\RLTracker\Taracker.Common\obj\Debug\netcoreapp3.1\Taracker.Common.csproj.CoreCompileInputs.cache
-C:\source\RLTracker\Taracker.Common\obj\Debug\netcoreapp3.1\Common.dll
-C:\source\RLTracker\Taracker.Common\obj\Debug\netcoreapp3.1\Common.pdb
-C:\source\RLTracker\Taracker.Common\obj\Debug\netcoreapp3.1\Taracker.Common.csprojAssemblyReference.cache

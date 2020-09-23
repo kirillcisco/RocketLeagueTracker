@@ -182,7 +182,7 @@
                                                     <RowDefinition Height="40"/>
                                                     <RowDefinition/>
                                                 </Grid.RowDefinitions>
-                                                <cachedImage:Image Source="{Binding OnesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40"/>
+                                                <cachedImage:Image Source="{Binding OnesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding OnesMatchesPlayed}" />
                                                 <TextBlock x:Name="OnesMmr" Grid.Row="1" Text="{Binding OnesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                                            FontWeight="{Binding OnesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
                                                            Foreground="{Binding OnesMatchesPlayed, Converter={StaticResource colorConverter}}"/>

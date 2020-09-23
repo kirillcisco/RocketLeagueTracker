@@ -14,17 +14,17 @@ namespace Common.Models
         private Uri threesUri;
         private byte[] threesPic;
         private string threesTitle;
-        private double? threesMmr;
+        private string threesMmr;
         private double? threesMatchesPlayed;
         private Uri twosUri;
         private byte[] twosPic;
         private string twosTitle;
-        private double? twosMmr;
+        private string twosMmr;
         private double? twosMatchesPlayed;
         private Uri onesUri;
         private byte[] onesPic;
         private string onesTitle;
-        private double? onesMmr;
+        private string onesMmr;
         private double? onesMatchesPlayed;
 
         public string Name { get => name; set { if (name != value) { name = value; NotifyPropertyChanged(); } } }
@@ -35,19 +35,19 @@ namespace Common.Models
         public Uri ThreesUri { get => threesUri; set { if (threesUri != value) { threesUri = value; NotifyPropertyChanged(); } } }
         public byte[] ThreesPic { get => threesPic; set { if (threesPic != value) { threesPic = value; NotifyPropertyChanged(); } } }
         public string ThreesTitle { get => threesTitle; set { if (threesTitle != value) { threesTitle = value; NotifyPropertyChanged(); } } }
-        public double? ThreesMmr { get => threesMmr; set { if (threesMmr != value) { threesMmr = value; NotifyPropertyChanged(); } } }
+        public string ThreesMmr { get => threesMmr; set { if (threesMmr != value) { threesMmr = value; NotifyPropertyChanged(); } } }
         public double? ThreesMatchesPlayed { get => threesMatchesPlayed; set { if (threesMatchesPlayed != value) { threesMatchesPlayed = value; NotifyPropertyChanged(); } } }
 
         public Uri TwosUri { get => twosUri; set { if (twosUri != value) { twosUri = value; NotifyPropertyChanged(); } } }
         public byte[] TwosPic { get => twosPic; set { if (twosPic != value) { twosPic = value; NotifyPropertyChanged(); } } }
         public string TwosTitle { get => twosTitle; set { if (twosTitle != value) { twosTitle = value; NotifyPropertyChanged(); } } }
-        public double? TwosMmr { get => twosMmr; set { if (twosMmr != value) { twosMmr = value; NotifyPropertyChanged(); } } }
+        public string TwosMmr { get => twosMmr; set { if (twosMmr != value) { twosMmr = value; NotifyPropertyChanged(); } } }
         public double? TwosMatchesPlayed { get => twosMatchesPlayed; set { if (twosMatchesPlayed != value) { twosMatchesPlayed = value; NotifyPropertyChanged(); } } }
 
         public Uri OnesUri { get => onesUri; set { if (onesUri != value) { onesUri = value; NotifyPropertyChanged(); } } }
         public byte[] OnesPic { get => onesPic; set { if (onesPic != value) { onesPic = value; NotifyPropertyChanged(); } } }
         public string OnesTitle { get => onesTitle; set { if (onesTitle != value) { onesTitle = value; NotifyPropertyChanged(); } } }
-        public double? OnesMmr { get => onesMmr; set { if (onesMmr != value) { onesMmr = value; NotifyPropertyChanged(); } } }
+        public string OnesMmr { get => onesMmr; set { if (onesMmr != value) { onesMmr = value; NotifyPropertyChanged(); } } }
         public double? OnesMatchesPlayed { get => onesMatchesPlayed; set { if (onesMatchesPlayed != value) { onesMatchesPlayed = value; NotifyPropertyChanged(); } } }
 
         public Uri TournamentsUri { get; set; }

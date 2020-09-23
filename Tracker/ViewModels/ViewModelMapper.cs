@@ -7,6 +7,8 @@ namespace Common.Models
     {
         public static void TrackedUser(TrackedUser user, ref TrackedUserViewModel vm)
         {
+            var defaultUri = @"https://trackercdn.com/cdn/tracker.gg/rocket-league/ranks/s4-0.png";
+
             try
             {
                 //This could probably be done with automapper, but the config would be just as ugly as this
@@ -22,8 +24,16 @@ namespace Common.Models
                     vm.ThreesUri = threes.Stats.Tier.Metadata.IconUrl;
                     vm.ThreesPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
                     vm.ThreesTitle = threes.Stats.Tier.Metadata.Name;
-                    vm.ThreesMmr = threes.Stats.Rating.Value;
+                    vm.ThreesMmr = threes.Stats.Rating.Value.ToString();
                     vm.ThreesMatchesPlayed = threes.Stats.MatchesPlayed.Value;
+                }
+                else
+                {
+                    vm.ThreesUri = new Uri(defaultUri);
+                    vm.ThreesPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
+                    vm.ThreesTitle = "N/A";
+                    vm.ThreesMmr = "N/A";
+                    vm.ThreesMatchesPlayed = 0;
                 }
 
                 var twos = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 11);
@@ -31,9 +41,17 @@ namespace Common.Models
                 {
                     vm.TwosUri = twos.Stats.Tier.Metadata.IconUrl;
                     vm.TwosTitle = twos.Stats.Tier.Metadata.Name;
-                    vm.TwosMmr = twos.Stats.Rating.Value;
+                    vm.TwosMmr = twos.Stats.Rating.Value.ToString();
                     vm.TwosMatchesPlayed = twos.Stats.MatchesPlayed.Value;
                     vm.TwosPic = ImageManager.Instance().GetImageFromUri(vm.TwosUri.ToString());
+                }
+                else
+                {
+                    vm.TwosUri = new Uri(defaultUri);
+                    vm.TwosPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
+                    vm.TwosTitle = "N/A";
+                    vm.TwosMmr = "N/A";
+                    vm.TwosMatchesPlayed = 0;
                 }
 
                 var ones = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 10);
@@ -41,9 +59,17 @@ namespace Common.Models
                 {
                     vm.OnesUri = ones.Stats.Tier.Metadata.IconUrl;
                     vm.OnesTitle = ones.Stats.Tier.Metadata.Name;
-                    vm.OnesMmr = ones.Stats.Rating.Value;
+                    vm.OnesMmr = ones.Stats.Rating.Value.ToString();
                     vm.OnesMatchesPlayed = ones.Stats.MatchesPlayed.Value;
                     vm.OnesPic = ImageManager.Instance().GetImageFromUri(vm.OnesUri.ToString());
+                }
+                else
+                {
+                    vm.OnesUri = new Uri(defaultUri);
+                    vm.OnesPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
+                    vm.OnesTitle = "N/A";
+                    vm.OnesMmr = "N/A";
+                    vm.OnesMatchesPlayed = 0;
                 }
 
                 var tournament = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 34);
