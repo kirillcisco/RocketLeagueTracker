@@ -1,4 +1,5 @@
-﻿using Common.Models;
+﻿using Common;
+using Common.Models;
 using Common.Search;
 using Newtonsoft.Json;
 using System;
@@ -15,7 +16,7 @@ namespace Tracker
     /// </summary>
     public class TrackedUsersManager
     {
-        private readonly string trackedUsersFile = Environment.CurrentDirectory + "\\tracked.json";
+        private readonly string trackedUsersFile = Constants.SaveLocation + "tracked.json";
         public ObservableCollection<TrackedUser> Users = new ObservableCollection<TrackedUser>();
         private RlTracker _searcher;
         private CancellationTokenSource _tokenSource;
