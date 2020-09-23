@@ -5,7 +5,7 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <UseWPF>true</UseWPF>
   </PropertyGroup>
-
+  
   <ItemGroup>
     <None Remove="appbar.refresh.png" />
   </ItemGroup>

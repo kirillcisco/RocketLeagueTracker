@@ -12,7 +12,7 @@ namespace Common
     {
         private static ImageManager _instance;
 
-        private readonly string SourceFolder = Environment.CurrentDirectory + "\\Cache";
+        private readonly string SourceFolder = Constants.SaveLocation + "Cache";
         private Dictionary<string, byte[]> _cache = new Dictionary<string, byte[]>();
 
         public static ImageManager Instance()
