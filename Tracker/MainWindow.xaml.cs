@@ -106,6 +106,13 @@ namespace Tracker
             }
         }
 
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            // ToDo tomorrow
+
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var searchData = ((FrameworkElement)sender).DataContext as SearchData;
