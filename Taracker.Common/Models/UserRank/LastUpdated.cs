@@ -6,9 +6,9 @@
     public partial class LastUpdated
     {
         [JsonProperty("value")]
-        public DateTimeOffset Value { get; set; }
+        public DateTimeOffset? Value { get; set; }
 
         [JsonProperty("displayValue")]
-        public DateTimeOffset DisplayValue { get; set; }
+        public DateTimeOffset? DisplayValue { get; set; }
     }
 }

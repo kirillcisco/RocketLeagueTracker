@@ -9,6 +9,7 @@ namespace Common.Models.Search
 {
     public partial class SearchData : INotifyPropertyChanged
     {
+
         [JsonProperty("platformId")]
         public long? PlatformId { get; set; }
 

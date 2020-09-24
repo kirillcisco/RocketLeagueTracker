@@ -161,15 +161,13 @@ namespace Tracker
             for (int i = 0; i < temp.Length - 1; i++)
             {
                 var user = temp[i];
-                if (user.LastUpdate <= DateTime.Now.AddMinutes(-5) || force)
+                if (user.LastUpdate.HasValue && user.LastUpdate.Value <= DateTime.Now.AddMinutes(-5) || force)
                 {
-                    System.Diagnostics.Debug.WriteLine($"{user.LastUpdate} - {DateTime.Now.AddMinutes(-5)}");
                     try
                     {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
                         Task.Run(async () =>
                         {
-                            System.Diagnostics.Debug.WriteLine($"{DateTime.Now.ToString()} Refreshed user: {user.UserId}  {force.ToString()}");
                             await RefreshUser(user);
                         });
 #pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
@@ -179,7 +177,6 @@ namespace Tracker
                         System.Diagnostics.Debug.WriteLine($"Error refreshing user: {ex.ToString()}");
                     }
 
-                    System.Diagnostics.Debug.WriteLine($"###################### {user.UserId}");
                     _context.Send(x => Users[i] = user, null);
                     Save();
                 }
