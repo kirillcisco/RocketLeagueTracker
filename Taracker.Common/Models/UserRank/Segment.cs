@@ -15,7 +15,7 @@
         public AvailableSegmentMetadata Metadata { get; set; }
 
         [JsonProperty("expiryDate")]
-        public DateTimeOffset ExpiryDate { get; set; }
+        public DateTimeOffset? ExpiryDate { get; set; }
 
         [JsonProperty("stats")]
         public Stats Stats { get; set; }

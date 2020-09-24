@@ -23,7 +23,7 @@
         public List<AvailableSegment> AvailableSegments { get; set; }
 
         [JsonProperty("expiryDate")]
-        public DateTimeOffset ExpiryDate { get; set; }
+        public DateTimeOffset? ExpiryDate { get; set; }
 
     }
 }
