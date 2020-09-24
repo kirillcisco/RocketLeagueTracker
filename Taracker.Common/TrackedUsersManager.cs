@@ -69,7 +69,7 @@ namespace Tracker
             var trackedUser = new TrackedUser()
             {
                 PlatForm = plat,
-                UserId = long.Parse(userId),
+                UserId = long.Parse(userId)
             };
 
             await RefreshUser(trackedUser);
