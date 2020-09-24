@@ -12,7 +12,7 @@ namespace Tracker
 {
     public partial class MainWindow : MetroWindow
     {
-
+        private SettingsManager _SettingsManager;
         private TrackedUsersManager _trackedUsersManager;
         private RlTracker _tracker;
         public MainViewModel vm = new MainViewModel();
@@ -24,8 +24,10 @@ namespace Tracker
             _tracker = new RlTracker();
 
             _trackedUsersManager = new TrackedUsersManager(_tracker);
+            _SettingsManager = new SettingsManager();
             _trackedUsersManager.Users.CollectionChanged += Users_CollectionChanged;
             _trackedUsersManager.Start();
+            _SettingsManager.Start();
 
             CachedImage.FileCache.AppCacheMode = CachedImage.FileCache.CacheMode.Dedicated;
 

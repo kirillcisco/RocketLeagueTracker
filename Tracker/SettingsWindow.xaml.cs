@@ -17,14 +17,22 @@ namespace Tracker
     /// </summary>
     public partial class SettingsWindow : Window
     {
+
+        private SettingsManager _SettingsManager;
+
+
         public SettingsWindow()
         {
             InitializeComponent();
+
+            _SettingsManager = new SettingsManager();
+
         }
 
         private void DataDeleteButton_Click(object sender, RoutedEventArgs e)
         {
-
+            _SettingsManager.DataDelete();
         }
+
     }
 }

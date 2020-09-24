@@ -7,10 +7,13 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
         mc:Ignorable="d"
-        Title="Settings for RL Tracker" Height="450" Width="800">
-    <Grid>
-        <Button x:Name="DataDeleteButton" Content="Delete all saved profile's data" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Click="DataDeleteButton_Click"/>
-        <TextBlock Foreground="#FFD4D4D4" Text="Rocket League Profile Tracker" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,408,0,0" />
+        Title="Settings for RL Tracker" Height="400" Width="620" ResizeMode="CanMinimize">
+
+    <Grid Background="#FF252525">
+        <TextBlock Foreground="#FF494949" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,342,0,0" ><Run Text="Rocket League Tracker"/><LineBreak/><Run/></TextBlock>
+        <CheckBox x:Name="DeleteReadyCheck" Content="I understand that this is permanently" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="DataDeleteButton" Content="Delete saved profile's data" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" Click="DataDeleteButton_Click" Width="218"/>
+        <Button x:Name="SaveSettingsButton" Content="Save settings" HorizontalAlignment="Center" Margin="0,247,0,0" VerticalAlignment="Top" Width="218"/>
 
     </Grid>
 </Window>
