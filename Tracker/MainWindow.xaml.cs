@@ -12,6 +12,7 @@ namespace Tracker
 {
     public partial class MainWindow : MetroWindow
     {
+
         private TrackedUsersManager _trackedUsersManager;
         private RlTracker _tracker;
         public MainViewModel vm = new MainViewModel();
@@ -108,6 +109,20 @@ namespace Tracker
 
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
+            SettingsWindow settingswindow = new SettingsWindow();
+
+            try
+            {
+                settingswindow.Show();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+
+            }
 
             // ToDo tomorrow
 
