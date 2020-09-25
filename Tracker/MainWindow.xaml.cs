@@ -5,7 +5,9 @@ using MahApps.Metro.Controls;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
 
 namespace Tracker
@@ -156,6 +158,42 @@ namespace Tracker
         private void ForceRefreshButton_Click(object sender, RoutedEventArgs e)
         {
             _trackedUsersManager.ForceRefresh();
+        }
+
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+
+            if (selectedItem != null)
+            {
+                var url = selectedItem.PlayerUri.ToString();
+                try
+                {
+                    System.Diagnostics.Process.Start(url);
+                }
+                catch (System.Exception other)
+                {
+                    // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        url = url.Replace("&", "^&");
+                        Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    {
+                        Process.Start("xdg-open", url);
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        Process.Start("open", url);
+                    }
+                    else
+                    {
+                        MessageBox.Show(other.ToString());
+                    }
+                }
+            }
         }
     }
 }

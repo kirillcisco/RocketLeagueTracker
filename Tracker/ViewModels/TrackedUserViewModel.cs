@@ -1,7 +1,9 @@
 ﻿using Common.Search;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace Common.Models
 {
@@ -26,6 +28,7 @@ namespace Common.Models
         private string onesTitle;
         private string onesMmr;
         private double? onesMatchesPlayed;
+        private Uri playerUri;
 
         public string Name { get => name; set { if (name != value) { name = value; NotifyPropertyChanged(); } } }
         public long UserId { get => userId; set { if (userId != value) { userId = value; NotifyPropertyChanged(); } } }
@@ -54,7 +57,7 @@ namespace Common.Models
         public byte[] TournamentsPic { get; set; }
         public string TournamentsTitle { get; set; }
         public double? TournamentsMmr { get; set; }
-
+        public Uri PlayerUri { get => playerUri; set { if (playerUri != value) { playerUri = value; } } }
 
 
         public event PropertyChangedEventHandler PropertyChanged;

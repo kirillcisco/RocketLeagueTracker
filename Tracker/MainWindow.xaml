@@ -204,9 +204,13 @@
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                         </GridView.Columns>
-
                     </GridView>
                 </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu Name="menu">
+                        <MenuItem Header="Open Tracker" Click="MenuItem_Click"></MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
 
             <TextBlock Grid.Column="1" Foreground="White" Text="Ranked 2v2" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Width="66"  TextAlignment="Center" />
