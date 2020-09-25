@@ -11,9 +11,12 @@
 
     <Grid Background="#FF252525">
         <TextBlock Foreground="#FF494949" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,342,0,0" ><Run Text="Rocket League Tracker"/><LineBreak/><Run/></TextBlock>
+        <TextBlock Foreground="#FFFB8C8C" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,223,0,0" ><Run Text="You have unsaved changes"/><LineBreak/><Run/></TextBlock>
         <CheckBox x:Name="DeleteReadyCheck" Content="I understand that this is permanently" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top"/>
         <Button x:Name="DataDeleteButton" Content="Delete saved profile's data" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" Click="DataDeleteButton_Click" Width="218"/>
         <Button x:Name="SaveSettingsButton" Content="Save settings" HorizontalAlignment="Center" Margin="0,247,0,0" VerticalAlignment="Top" Width="218"/>
-
+        <CheckBox Content="Close to tray menu" HorizontalAlignment="Left" Margin="41,104,0,0" VerticalAlignment="Top"/>
+        <TextBox x:Name="FilesPathBox" HorizontalAlignment="Left" Margin="41,57,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Height="19"/>
+        <TextBlock Foreground="#FF494949" FontWeight="Bold" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="-20,38,0,0" ><Run Text="Path to save data"/><LineBreak/><Run/></TextBlock>
     </Grid>
 </Window>

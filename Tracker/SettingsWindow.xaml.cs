@@ -24,7 +24,7 @@ namespace Tracker
         public SettingsWindow()
         {
             InitializeComponent();
-
+            FilesPathBox.Text = "Initial text contents of the TextBox.";
             _SettingsManager = new SettingsManager();
 
         }

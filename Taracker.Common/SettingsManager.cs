@@ -44,7 +44,7 @@ namespace Tracker
             try
             {
                 string SettingsString = null; // TODO
-                System.IO.File.WriteAllText(trackedUsersFile, SettingsString);
+                System.IO.File.WriteAllText(userSettingsFile, SettingsString);
             }
             catch (Exception ex)
             {
@@ -55,8 +55,10 @@ namespace Tracker
         {
             try
             {
-                System.IO.File.Delete(trackedUsersFile);
-                System.IO.File.Delete(CacheFolder);
+                if(System.IO.File.Exists(trackedUsersFile))
+                    System.IO.File.Delete(trackedUsersFile);
+                if (System.IO.File.Exists(CacheFolder))
+                    System.IO.File.Delete(CacheFolder);
             }
             catch (Exception ex)
             {
