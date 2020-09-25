@@ -1,10 +1,13 @@
 ﻿using Common.Search;
 using System;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace Common.Models
 {
+    //Todo create specific objects for the various related game modes
     public class TrackedUserViewModel : INotifyPropertyChanged
     {
         private string name;
@@ -26,6 +29,7 @@ namespace Common.Models
         private string onesTitle;
         private string onesMmr;
         private double? onesMatchesPlayed;
+        private Uri playerUri;
 
         public string Name { get => name; set { if (name != value) { name = value; NotifyPropertyChanged(); } } }
         public long UserId { get => userId; set { if (userId != value) { userId = value; NotifyPropertyChanged(); } } }
@@ -55,7 +59,7 @@ namespace Common.Models
         public string TournamentsTitle { get; set; }
         public double? TournamentsMmr { get; set; }
 
-
+        public Uri PlayerUri { get => playerUri; set { if(playerUri != value) { playerUri = value; } } }
 
         public event PropertyChangedEventHandler PropertyChanged;
         // This method is called by the Set accessor of each property.  

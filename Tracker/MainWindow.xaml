@@ -7,7 +7,7 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
         mc:Ignorable="d"
-        Title="Tracker" Height="456" Width="677" ResizeMode="CanMinimize">
+        Title="Tracker" Height="456" Width="738" ResizeMode="CanMinimize">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -31,7 +31,7 @@
             <ComboBoxItem Name="PSN" Content="PSN" />
         </ComboBox>
         <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Left" Margin="287,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="28" Width="50"/>
-        <Button x:Name="ForceRefreshButton" Content="{StaticResource RefreshIcon}" HorizontalAlignment="Left" Margin="639,0,0,0" 
+        <Button x:Name="ForceRefreshButton" Content="{StaticResource RefreshIcon}" HorizontalAlignment="Left" Margin="690,0,0,0" 
                 VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="35" Width="35" BorderBrush="Transparent"
                 Style="{DynamicResource MahApps.Styles.Button.Circle}"/>
 
@@ -95,7 +95,7 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Name="TrackedGrid" HorizontalAlignment="Center" Width="677" Margin="0,46,0,0" Grid.RowSpan="2" ScrollViewer.CanContentScroll="True">
+        <Grid Name="TrackedGrid" HorizontalAlignment="Center" Width="718" Margin="0,46,0,0" Grid.RowSpan="2" ScrollViewer.CanContentScroll="True">
             <Grid.RowDefinitions>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="157*"/>
@@ -111,9 +111,9 @@
                 <ColumnDefinition Width="75*"/>
             </Grid.ColumnDefinitions>
 
-            <ListView x:Name="TrackedUserGrid" Visibility="Visible" Width="677"
+            <ListView x:Name="TrackedUserGrid" Visibility="Visible" Width="718"
                   ItemsSource="{Binding Users}"  HorizontalAlignment="Left"
-                  Grid.ColumnSpan="6" Grid.Row="1" Margin="0,0,0,10" Grid.RowSpan="2">
+                  Grid.ColumnSpan="6" Grid.Row="1" Margin="0,2,0,7" Grid.RowSpan="2">
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
                         <GridView.ColumnHeaderContainerStyle>
@@ -204,6 +204,11 @@
 
                     </GridView>
                 </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu Name="menu">
+                        <MenuItem Header="Open Tracker" Click="MenuItem_Click"></MenuItem>
+                    </ContextMenu>
+                </ListView.ContextMenu>
             </ListView>
 
             <TextBlock Grid.Column="1" Foreground="White" Text="Ranked 2v2" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Width="66"  TextAlignment="Center" />

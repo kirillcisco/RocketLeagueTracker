@@ -16,6 +16,7 @@ namespace Common.Models
                 vm.UserId = user.UserId;
                 vm.Platform = user.PlatForm;
                 vm.Avatar = user.Data.PlatformInfo.AvatarUrl;
+                vm.PlayerUri = new Uri($"https://rocketleague.tracker.network/rocket-league/profile/{Common.Search.RlTracker.GetPlatformString(user.PlatForm)}/{user.UserId}");
 
 
                 var threes = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 13);
