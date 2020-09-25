@@ -1,4 +1,5 @@
 ﻿using System;
+using Common;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -17,14 +18,14 @@ namespace Tracker
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        private readonly string dataLocation = Constants.SaveLocation; // TODO: Dont use Constants!
 
         private SettingsManager _SettingsManager;
-
 
         public SettingsWindow()
         {
             InitializeComponent();
-            FilesPathBox.Text = "Initial text contents of the TextBox.";
+            FilesPathBox.Text = dataLocation;
             _SettingsManager = new SettingsManager();
 
         }

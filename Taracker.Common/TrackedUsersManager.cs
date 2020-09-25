@@ -16,7 +16,6 @@ namespace Tracker
     /// </summary>
     public class TrackedUsersManager
     {
-        private readonly string SourceFolder = Constants.SaveLocation + "Cache";
         private readonly string trackedUsersFile = Constants.SaveLocation + "tracked.json";
         public ObservableCollection<TrackedUser> Users = new ObservableCollection<TrackedUser>();
         private RlTracker _searcher;

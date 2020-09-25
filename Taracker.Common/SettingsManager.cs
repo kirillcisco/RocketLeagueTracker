@@ -13,9 +13,9 @@ namespace Tracker
 {
     public class SettingsManager
     {
-        private readonly string CacheFolder = Constants.SaveLocation + "Cache";
-        private readonly string trackedUsersFile = Constants.SaveLocation + "tracked.json";
-        private readonly string userSettingsFile = Constants.SaveLocation + "userSettings.json";
+        private readonly string CacheFolder = Constants.SaveLocation + "Cache"; // TODO: Dont use Constants!
+        private readonly string trackedUsersFile = Constants.SaveLocation + "tracked.json"; // TODO: Dont use Constants!
+        private readonly string userSettingsFile = Constants.SaveLocation + "userSettings.json"; // TODO: Dont use Constants!
 
 
         public async void Start()
