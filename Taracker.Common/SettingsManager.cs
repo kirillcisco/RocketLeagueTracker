@@ -8,6 +8,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Configuration;
 
 namespace Tracker
 {
@@ -16,7 +17,6 @@ namespace Tracker
         private readonly string CacheFolder = Constants.SaveLocation + "Cache"; // TODO: Dont use Constants!
         private readonly string trackedUsersFile = Constants.SaveLocation + "tracked.json"; // TODO: Dont use Constants!
         private readonly string userSettingsFile = Constants.SaveLocation + "userSettings.json"; // TODO: Dont use Constants!
-
 
         public async void Start()
         {
@@ -29,7 +29,7 @@ namespace Tracker
         }
 
 
-        private void Load()
+        private void Load() // Deprecated maybe? TODO: Check ReadAppSettings() in SettingsWindow.xaml.cs
         {
             if (!System.IO.File.Exists(userSettingsFile))
                 return;
