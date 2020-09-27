@@ -31,6 +31,7 @@ namespace Tracker
             _trackedUsersManager.Start();
             _SettingsManager.Start();
 
+
             CachedImage.FileCache.AppCacheMode = CachedImage.FileCache.CacheMode.Dedicated;
 
             //set viewmodel 

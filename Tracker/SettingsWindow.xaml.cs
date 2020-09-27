@@ -14,9 +14,7 @@ using System.Configuration;
 
 namespace Tracker
 {
-    /// <summary>
-    /// Логика взаимодействия для SettingsWindow.xaml
-    /// </summary>
+
     public partial class SettingsWindow : Window
     {
         private readonly string dataLocation = Constants.SaveLocation; // TODO: Dont use Constants!
