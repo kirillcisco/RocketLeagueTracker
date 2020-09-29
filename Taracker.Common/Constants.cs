@@ -8,4 +8,5 @@ namespace Common
     {
         public static string SaveLocation = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RlTracker\\";
     }
+
 }

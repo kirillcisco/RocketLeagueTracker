@@ -66,8 +66,7 @@ namespace Common.Models
         public byte[] TournamentsPic { get; set; }
         public string TournamentsTitle { get; set; }
         public double? TournamentsMmr { get; set; }
-
-        public Uri PlayerUri { get => playerUri; set { if(playerUri != value) { playerUri = value; } } }
+        public Uri PlayerUri { get => playerUri; set { if (playerUri != value) { playerUri = value; } } }
 
         public event PropertyChangedEventHandler PropertyChanged;
         // This method is called by the Set accessor of each property.  

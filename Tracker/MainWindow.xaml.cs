@@ -2,7 +2,8 @@
 using Common.Models.Search;
 using Common.Search;
 using MahApps.Metro.Controls;
-using Squirrel;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -16,19 +17,27 @@ namespace Tracker
 {
     public partial class MainWindow : MetroWindow
     {
+        private SettingsManager _SettingsManager;
         private TrackedUsersManager _trackedUsersManager;
         private RlTracker _tracker;
         public MainViewModel vm = new MainViewModel();
+        private AppSettings _settings;
 
-        public MainWindow()
+        public MainWindow(IOptions<AppSettings> settings)
         {
+            //Access the AppSettings object that is read in automatically from the IOC container
+            _settings = settings.Value;
+
             InitializeComponent();
 
             _tracker = new RlTracker();
 
             _trackedUsersManager = new TrackedUsersManager(_tracker);
+            _SettingsManager = new SettingsManager();
             _trackedUsersManager.Users.CollectionChanged += Users_CollectionChanged;
             _trackedUsersManager.Start();
+            _SettingsManager.Start();
+
 
             CachedImage.FileCache.AppCacheMode = CachedImage.FileCache.CacheMode.Dedicated;
 
@@ -128,6 +137,27 @@ namespace Tracker
             }
         }
 
+        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            SettingsWindow settingswindow = new SettingsWindow(_settings);
+
+            try
+            {
+                settingswindow.Show();
+            }
+            catch (Exception)
+            {
+
+            }
+            finally
+            {
+
+            }
+
+            // ToDo tomorrow
+
+        }
+
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var searchData = ((FrameworkElement)sender).DataContext as SearchData;
@@ -160,7 +190,7 @@ namespace Tracker
         {
             var selectedItem = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
 
-            if(selectedItem != null)
+            if (selectedItem != null)
             {
                 var url = selectedItem.PlayerUri.ToString();
                 try

@@ -7,7 +7,7 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
         mc:Ignorable="d"
-        Title="Tracker" Height="456" Width="738" ResizeMode="CanMinimize">
+        Title="Rocket League Profile's Tracker" Height="456" Width="738" ResizeMode="CanMinimize">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -30,7 +30,9 @@
             <ComboBoxItem Name="Xbox" Content="Xbox" />
             <ComboBoxItem Name="PSN" Content="PSN" />
         </ComboBox>
+
         <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Left" Margin="287,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="28" Width="50"/>
+        <Button x:Name="SettingsButton" Content="Settings" HorizontalAlignment="Right" Margin="0,8,43,0" VerticalAlignment="Top" Click="SettingsButton_Click" Height="28" Width="80"/>
         <Button x:Name="ForceRefreshButton" Content="{StaticResource RefreshIcon}" HorizontalAlignment="Left" Margin="690,0,0,0" 
                 VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="35" Width="35" BorderBrush="Transparent"
                 Style="{DynamicResource MahApps.Styles.Button.Circle}"/>
@@ -190,7 +192,6 @@
                         </GridView.Columns>
                     </GridView>
                 </ListView.View>
-
                 <ListView.ContextMenu>
                     <ContextMenu Name="menu">
                         <MenuItem Header="Open Tracker" Click="MenuItem_Click"></MenuItem>
@@ -201,6 +202,7 @@
 
             <Label x:Name="updateTime" Content="{Binding LastUpdate}" HorizontalAlignment="Right" Width="165" Height="25" VerticalAlignment="Top" Margin="0,375,10,0"/>
         </Grid>
+
 
 
 

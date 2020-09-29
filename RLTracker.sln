@@ -11,16 +11,21 @@ Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
+		TrackerSettings|Any CPU = TrackerSettings|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.TrackerSettings|Any CPU.ActiveCfg = Debug|Any CPU
+		{D69B93D0-F6CB-4D3A-B24C-507815D5A4B2}.TrackerSettings|Any CPU.Build.0 = Debug|Any CPU
 		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.TrackerSettings|Any CPU.ActiveCfg = Debug|Any CPU
+		{A17599C7-D3F7-4567-8762-844AB4CCBFDE}.TrackerSettings|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
