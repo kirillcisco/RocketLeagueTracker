@@ -39,7 +39,6 @@ namespace Tracker
         //I'm sure theres a better place for this
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Event fired {e.Action.ToString()}");
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (TrackedUser item in e.OldItems)
@@ -127,8 +126,8 @@ namespace Tracker
 
         private void RemoveTrackedUserButton_Click(object sender, RoutedEventArgs e)
         {
-            var userModel = ((FrameworkElement)sender).DataContext as TrackedUserViewModel;
-            _trackedUsersManager.Remove(userModel.UserId.ToString());
+            var selected = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+            _trackedUsersManager.Remove(selected.UserId.ToString());
         }
 
         private void ForceRefreshButton_Click(object sender, RoutedEventArgs e)
