@@ -12,7 +12,6 @@ namespace Tracker
         public MainViewModel()
         {
             Users = new ObservableCollection<TrackedUserViewModel>() { };
-            Users.Add(LoadTestData());
         }
 
         private DateTime? lastUpdate;
