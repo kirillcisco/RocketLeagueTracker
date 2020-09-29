@@ -38,16 +38,21 @@ namespace Tracker
             CheckForUpdates();
         }
 
-        private void CheckForUpdates()
+        private async void CheckForUpdates()
         {
             //https://github.com/Squirrel/Squirrel.Windows/blob/develop/docs/using/github.md
-            Task.Run(async () =>
+            try
             {
                 using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/kevinLay7/RocketLeagueTracker"))
                 {
                     await mgr.Result.UpdateApp();
                 }
-            });
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         //todo move the searchdata to a viewmodel
