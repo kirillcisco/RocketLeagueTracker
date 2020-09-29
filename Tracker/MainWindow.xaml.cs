@@ -4,13 +4,14 @@ using Common.Search;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Onova.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace Tracker
@@ -49,19 +50,22 @@ namespace Tracker
 
         private async void CheckForUpdates()
         {
-            //https://github.com/Squirrel/Squirrel.Windows/blob/develop/docs/using/github.md
-            try
+            //todo modify so that we check for updates on a cycle and enable an update button to launch the update when its ready
+            using (var mgr = new Onova.UpdateManager(new GithubPackageResolver("kevinlay7", "RocketLeagueTracker", "*.zip"), new ZipPackageExtractor()))
             {
-                using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/kevinLay7/RocketLeagueTracker"))
+                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+                var check = mgr.CheckForUpdatesAsync().GetAwaiter().GetResult();
+
+                if (!check.CanUpdate)
                 {
-                    await mgr.Result.UpdateApp();
+                    return;
                 }
-            }
-            catch (Exception ex)
-            {
 
-            }
+                mgr.PrepareUpdateAsync(check.LastVersion).GetAwaiter().GetResult();
 
+                mgr.LaunchUpdater(check.LastVersion, true, "");
+                Environment.Exit(0);
+            }
         }
 
         //todo move the searchdata to a viewmodel
