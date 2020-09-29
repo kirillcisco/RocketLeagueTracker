@@ -2,12 +2,14 @@
 using Common.Models.Search;
 using Common.Search;
 using MahApps.Metro.Controls;
+using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Tracker
@@ -32,6 +34,21 @@ namespace Tracker
 
             //set viewmodel 
             this.DataContext = vm;
+
+            CheckForUpdates();
+        }
+
+        private void CheckForUpdates()
+        {
+            //https://github.com/Squirrel/Squirrel.Windows/blob/develop/docs/using/github.md
+            Task.Run(async () =>
+            {
+                using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/kevinLay7/RocketLeagueTracker"))
+                {
+                    var a = await mgr.Result.CheckForUpdate();
+                    await mgr.Result.UpdateApp();
+                }
+            });
         }
 
         //todo move the searchdata to a viewmodel
