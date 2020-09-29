@@ -7,7 +7,7 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
         mc:Ignorable="d"
-        Title="Rocket League Profile's Tracker" Height="456" Width="677" ResizeMode="CanMinimize">
+        Title="Rocket League Profile's Tracker" Height="456" Width="738" ResizeMode="CanMinimize">
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -33,8 +33,7 @@
 
         <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Left" Margin="287,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="28" Width="50"/>
         <Button x:Name="SettingsButton" Content="Settings" HorizontalAlignment="Right" Margin="0,8,43,0" VerticalAlignment="Top" Click="SettingsButton_Click" Height="28" Width="80"/>
-
-        <Button x:Name="ForceRefreshButton" Content="{StaticResource RefreshIcon}" HorizontalAlignment="Left" Margin="639,0,0,0" 
+        <Button x:Name="ForceRefreshButton" Content="{StaticResource RefreshIcon}" HorizontalAlignment="Left" Margin="690,0,0,0" 
                 VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="35" Width="35" BorderBrush="Transparent"
                 Style="{DynamicResource MahApps.Styles.Button.Circle}"/>
 
@@ -98,31 +97,18 @@
             </DataGrid.Columns>
         </DataGrid>
 
-        <Grid Name="TrackedGrid" HorizontalAlignment="Center" Width="677" Margin="0,46,0,0" Grid.RowSpan="2" ScrollViewer.CanContentScroll="True">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="157*"/>
-                <RowDefinition Height="188*"/>
-                <RowDefinition Height="25"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="210"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="100"/>
-                <ColumnDefinition Width="75*"/>
-            </Grid.ColumnDefinitions>
-
-            <ListView x:Name="TrackedUserGrid" Visibility="Visible" Width="677"
-                  ItemsSource="{Binding Users}"  HorizontalAlignment="Left"
-                  Grid.ColumnSpan="6" Grid.Row="1" Margin="0,0,0,10" Grid.RowSpan="2">
+        <Grid Name="TrackedGrid" HorizontalAlignment="Stretch"  Margin="0,46,0,0" Grid.RowSpan="2" ScrollViewer.CanContentScroll="True">
+            <ListView x:Name="TrackedUserGrid" Visibility="Visible"
+                  ItemsSource="{Binding Users}"  HorizontalAlignment="Center" Margin="0,2,0,7" >
                 <ListView.View>
                     <GridView AllowsColumnReorder="False">
                         <GridView.ColumnHeaderContainerStyle>
                             <Style BasedOn="{StaticResource {x:Type GridViewColumnHeader}}" TargetType="{x:Type GridViewColumnHeader}">
                                 <Setter Property="IsHitTestVisible" Value="False"/>
-                                <Setter Property="Visibility" Value="Hidden"/>
+                                <Setter Property="HorizontalContentAlignment" Value="Center" />
+                                <Setter Property="Background" Value="Transparent" />
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="FontWeight" Value="Bold"/>
                             </Style>
                         </GridView.ColumnHeaderContainerStyle>
                         <GridView.Columns>
@@ -145,61 +131,61 @@
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
-                            <GridViewColumn>
+                            <GridViewColumn Width="100" Header="Un-Ranked">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="100"/>
-                                                <ColumnDefinition Width="*"/>
-                                            </Grid.ColumnDefinitions>
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="60"/>
-                                            </Grid.RowDefinitions>
-
-                                            <Grid Grid.Row="1" Grid.Column="0">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="40"/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
-                                                <cachedImage:Image Source="{Binding TwosPic , Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding TwosMatchesPlayed}"/>
-                                                <TextBlock x:Name="TwosMmr" Grid.Row="1" Text="{Binding TwosMmr}" HorizontalAlignment="Center" 
-                                                           VerticalAlignment="Center" FontWeight="{Binding TwosMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                           Foreground="{Binding TwosMatchesPlayed, Converter={StaticResource colorConverter}}"/>
-                                            </Grid>
-                                            <Grid Grid.Row="1" Grid.Column="1">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="40"/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
-                                                <cachedImage:Image Source="{Binding ThreesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding ThreesMatchesPlayed}"/>
-                                                <TextBlock x:Name="ThreesMmr" Grid.Row="1" Text="{Binding ThreesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        <DockPanel>
+                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding CasualPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding CasualMatchesPlayed}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding CasualMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                           FontWeight="{Binding CasualMatchesPlayed, Converter={StaticResource WeightConverter}}" 
+                                                           Foreground="{Binding CasualMatchesPlayed, Converter={StaticResource colorConverter}}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Ranked 3v3">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding ThreesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding ThreesMatchesPlayed}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding ThreesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                                            FontWeight="{Binding ThreesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
                                                            Foreground="{Binding ThreesMatchesPlayed, Converter={StaticResource colorConverter}}"/>
-                                            </Grid>
-                                            <Grid Grid.Row="1" Grid.Column="2">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="40"/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
-                                                <cachedImage:Image Source="{Binding OnesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding OnesMatchesPlayed}" />
-                                                <TextBlock x:Name="OnesMmr" Grid.Row="1" Text="{Binding OnesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Ranked 2v2" >
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding TwosPic , Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding TwosMatchesPlayed}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TwosMmr" Grid.Row="1" Text="{Binding TwosMmr}" HorizontalAlignment="Center" 
+                                                           VerticalAlignment="Center" FontWeight="{Binding TwosMatchesPlayed, Converter={StaticResource WeightConverter}}" 
+                                                           Foreground="{Binding TwosMatchesPlayed, Converter={StaticResource colorConverter}}"/>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Ranked 1v1">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding OnesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding OnesMatchesPlayed}" />
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="OnesMmr" Grid.Row="1" Text="{Binding OnesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
                                                            FontWeight="{Binding OnesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
                                                            Foreground="{Binding OnesMatchesPlayed, Converter={StaticResource colorConverter}}"/>
-                                            </Grid>
-                                            <Grid Grid.Row="1" Grid.Column="3">
-                                                <Grid.RowDefinitions>
-                                                    <RowDefinition Height="40"/>
-                                                    <RowDefinition/>
-                                                </Grid.RowDefinitions>
-                                                <cachedImage:Image Source="{Binding TournamentsPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40"/>
-                                                <TextBlock x:Name="TournamentsMmr" Grid.Row="1" Text="{Binding TournamentsMmr}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                            </Grid>
-                                            <Button x:Name="RemoveTrackedUserButton" Grid.Column="4" Content="X" Click="RemoveTrackedUserButton_Click" Style="{DynamicResource MahApps.Styles.Button.Circle}" Width="20" Height="20"/>
-                                        </Grid>
+                                        </DockPanel>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
+                            <GridViewColumn Width="100" Header="Tournaments">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DockPanel>
+                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding TournamentsPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TournamentsMmr" Grid.Row="1" Text="{Binding TournamentsMmr}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
@@ -209,15 +195,12 @@
                 <ListView.ContextMenu>
                     <ContextMenu Name="menu">
                         <MenuItem Header="Open Tracker" Click="MenuItem_Click"></MenuItem>
+                        <MenuItem Header="Remove Tracked User" Click="RemoveTrackedUserButton_Click"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
 
-            <TextBlock Grid.Column="1" Foreground="White" Text="Ranked 2v2" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Center" Width="66"  TextAlignment="Center" />
-            <TextBlock Grid.Column="2" Foreground="White" Text="Ranked 3v3" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Height="16" Width="66" TextAlignment="Center" />
-            <TextBlock Grid.Column="3" Foreground="White" Text="Ranked Duel" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Height="16" Width="94" TextAlignment="Center"  />
-            <TextBlock Grid.Column="4" Foreground="White" Text="Tournament" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold" Height="16" Width="68" TextAlignment="Center" />
-            <Label Grid.Column="4" Grid.ColumnSpan="2" Grid.Row="2" x:Name="updateTime" Content="{Binding LastUpdate}" HorizontalAlignment="Right" Width="165" Height="25" VerticalAlignment="Top" Margin="0,168,0,0" Grid.RowSpan="2"/>
+            <Label x:Name="updateTime" Content="{Binding LastUpdate}" HorizontalAlignment="Right" Width="165" Height="25" VerticalAlignment="Top" Margin="0,375,10,0"/>
         </Grid>
 
 

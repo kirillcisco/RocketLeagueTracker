@@ -18,6 +18,12 @@ namespace Common.Models
                 vm.Avatar = user.Data.PlatformInfo.AvatarUrl;
                 vm.PlayerUri = new Uri($"https://rocketleague.tracker.network/rocket-league/profile/{Common.Search.RlTracker.GetPlatformString(user.PlatForm)}/{user.UserId}");
 
+                var causal = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 0);
+                if (causal != null)
+                {
+                    vm.CasualMmr = causal.Stats.Rating.Value.ToString();
+                    vm.CasualMatchesPlayed = causal.Stats.MatchesPlayed.Value;
+                }
 
                 var threes = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 13);
                 if (threes != null)

@@ -163,7 +163,6 @@ namespace Tracker
                 var user = temp[i];
                 if (user.LastUpdate.HasValue && user.LastUpdate.Value <= DateTime.Now.AddMinutes(-5) || force)
                 {
-                    System.Diagnostics.Debug.WriteLine($"{user.LastUpdate} - {DateTime.Now.AddMinutes(-5)}");
                     try
                     {
 #pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed

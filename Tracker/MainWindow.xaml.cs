@@ -10,6 +10,7 @@ using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace Tracker
@@ -42,6 +43,25 @@ namespace Tracker
 
             //set viewmodel 
             this.DataContext = vm;
+
+            CheckForUpdates();
+        }
+
+        private async void CheckForUpdates()
+        {
+            //https://github.com/Squirrel/Squirrel.Windows/blob/develop/docs/using/github.md
+            try
+            {
+                using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/kevinLay7/RocketLeagueTracker"))
+                {
+                    await mgr.Result.UpdateApp();
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
         }
 
         //todo move the searchdata to a viewmodel
@@ -49,7 +69,6 @@ namespace Tracker
         //I'm sure theres a better place for this
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Event fired {e.Action.ToString()}");
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (TrackedUser item in e.OldItems)
@@ -158,15 +177,14 @@ namespace Tracker
 
         private void RemoveTrackedUserButton_Click(object sender, RoutedEventArgs e)
         {
-            var userModel = ((FrameworkElement)sender).DataContext as TrackedUserViewModel;
-            _trackedUsersManager.Remove(userModel.UserId.ToString());
+            var selected = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+            _trackedUsersManager.Remove(selected.UserId.ToString());
         }
 
         private void ForceRefreshButton_Click(object sender, RoutedEventArgs e)
         {
             _trackedUsersManager.ForceRefresh();
         }
-
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {

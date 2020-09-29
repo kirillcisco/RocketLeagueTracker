@@ -7,6 +7,7 @@ using System.Windows.Input;
 
 namespace Common.Models
 {
+    //Todo create specific objects for the various related game modes
     public class TrackedUserViewModel : INotifyPropertyChanged
     {
         private string name;
@@ -29,11 +30,19 @@ namespace Common.Models
         private string onesMmr;
         private double? onesMatchesPlayed;
         private Uri playerUri;
+        private string casualMmr;
+        private double? casualMatchesPlayed;
 
         public string Name { get => name; set { if (name != value) { name = value; NotifyPropertyChanged(); } } }
         public long UserId { get => userId; set { if (userId != value) { userId = value; NotifyPropertyChanged(); } } }
         public Platform Platform { get => platform; set { if (platform != value) { platform = value; NotifyPropertyChanged(); } } }
         public Uri Avatar { get => avatar; set { if (avatar != value) { avatar = value; NotifyPropertyChanged(); } } }
+
+        public Uri CasualUri { get => new Uri("https://trackercdn.com/cdn/tracker.gg/rocket-league/ranks/s4-0.png"); }
+        public byte[] CasualPic { get => ImageManager.Instance().GetImageFromUri(CasualUri.ToString());  }
+        public string CasualTitle { get => "Un-Ranked"; }
+        public string CasualMmr { get => casualMmr; set { if (casualMmr != value) { casualMmr = value; NotifyPropertyChanged(); } } }
+        public double? CasualMatchesPlayed { get => casualMatchesPlayed; set { if (casualMatchesPlayed != value) { casualMatchesPlayed = value; NotifyPropertyChanged(); } } }
 
         public Uri ThreesUri { get => threesUri; set { if (threesUri != value) { threesUri = value; NotifyPropertyChanged(); } } }
         public byte[] ThreesPic { get => threesPic; set { if (threesPic != value) { threesPic = value; NotifyPropertyChanged(); } } }
@@ -58,7 +67,6 @@ namespace Common.Models
         public string TournamentsTitle { get; set; }
         public double? TournamentsMmr { get; set; }
         public Uri PlayerUri { get => playerUri; set { if (playerUri != value) { playerUri = value; } } }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         // This method is called by the Set accessor of each property.  
