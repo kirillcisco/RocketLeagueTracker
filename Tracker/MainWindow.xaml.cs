@@ -45,7 +45,6 @@ namespace Tracker
             {
                 using (var mgr = UpdateManager.GitHubUpdateManager("https://github.com/kevinLay7/RocketLeagueTracker"))
                 {
-                    var a = await mgr.Result.CheckForUpdate();
                     await mgr.Result.UpdateApp();
                 }
             });
