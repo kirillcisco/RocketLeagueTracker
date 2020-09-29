@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Configuration;
+using Microsoft.Extensions.Configuration;
 
 namespace Tracker
 {
@@ -21,6 +22,8 @@ namespace Tracker
 
         private SettingsManager _SettingsManager;
 
+        //TODO Remove this because settings will now be automatically read by the IOC container
+        //Settings will be automatically saved to the appsettings.json file when the setter is called on the property
         static void ReadAppSettings() // i dont fucking know, why i cant use this in SettingsManager.cs, i have error CS1069. ("System.Configuration;" is used)
         {
             try
@@ -42,7 +45,7 @@ namespace Tracker
             }
         }
 
-        public SettingsWindow()
+        public SettingsWindow(AppSettings config)
         {
             InitializeComponent();
             FilesPathBox.Text = dataLocation;

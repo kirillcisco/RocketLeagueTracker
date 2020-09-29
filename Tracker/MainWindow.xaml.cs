@@ -2,6 +2,8 @@
 using Common.Models.Search;
 using Common.Search;
 using MahApps.Metro.Controls;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -18,9 +20,13 @@ namespace Tracker
         private TrackedUsersManager _trackedUsersManager;
         private RlTracker _tracker;
         public MainViewModel vm = new MainViewModel();
+        private AppSettings _settings;
 
-        public MainWindow()
+        public MainWindow(IOptions<AppSettings> settings)
         {
+            //Access the AppSettings object that is read in automatically from the IOC container
+            _settings = settings.Value;
+
             InitializeComponent();
 
             _tracker = new RlTracker();
@@ -114,7 +120,7 @@ namespace Tracker
 
         private async void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
-            SettingsWindow settingswindow = new SettingsWindow();
+            SettingsWindow settingswindow = new SettingsWindow(_settings);
 
             try
             {
