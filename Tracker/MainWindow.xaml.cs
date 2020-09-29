@@ -6,7 +6,9 @@ using Squirrel;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -54,7 +56,6 @@ namespace Tracker
         //I'm sure theres a better place for this
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"Event fired {e.Action.ToString()}");
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (TrackedUser item in e.OldItems)
@@ -142,13 +143,48 @@ namespace Tracker
 
         private void RemoveTrackedUserButton_Click(object sender, RoutedEventArgs e)
         {
-            var userModel = ((FrameworkElement)sender).DataContext as TrackedUserViewModel;
-            _trackedUsersManager.Remove(userModel.UserId.ToString());
+            var selected = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+            _trackedUsersManager.Remove(selected.UserId.ToString());
         }
 
         private void ForceRefreshButton_Click(object sender, RoutedEventArgs e)
         {
             _trackedUsersManager.ForceRefresh();
+        }
+
+        private void MenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+
+            if(selectedItem != null)
+            {
+                var url = selectedItem.PlayerUri.ToString();
+                try
+                {
+                    System.Diagnostics.Process.Start(url);
+                }
+                catch (System.Exception other)
+                {
+                    // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                    if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                    {
+                        url = url.Replace("&", "^&");
+                        Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                    {
+                        Process.Start("xdg-open", url);
+                    }
+                    else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    {
+                        Process.Start("open", url);
+                    }
+                    else
+                    {
+                        MessageBox.Show(other.ToString());
+                    }
+                }
+            }
         }
     }
 }
