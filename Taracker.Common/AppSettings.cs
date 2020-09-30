@@ -1,18 +1,34 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Text;
 
 namespace Tracker
 {
     public class AppSettings
     {
-        private string defaultFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RlTracker\\";
-        private readonly string settingsFilePath = Path.Combine(AppContext.BaseDirectory, "appSettings.json");
+        private static string defaultFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RLTracker\\";
+        public static readonly string settingsFilePath = Path.Combine(defaultFilePath, "appSettings.json");
+
+        public AppSettings()
+        {
+            //If the settings file doesn't exist, create it.
+            if (!System.IO.File.Exists(settingsFilePath))
+            {
+                System.IO.File.WriteAllText(settingsFilePath, "{\"AppSettings\":{}}");
+                SetDefaults();
+            }
+        }
+        
+        private void SetDefaults()
+        {
+            CacheFolderLocation = Path.Combine(defaultFilePath, "Cache");
+            SaveFolderLocation = defaultFilePath;
+            AutoUpdate = false;
+        }
+
 
         private void TrySave<T>(Expression<Func<T>> expression)
         {
