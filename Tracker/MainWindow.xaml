@@ -3,11 +3,32 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
         xmlns:local="clr-namespace:Tracker"
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
         mc:Ignorable="d"
-        Title="Rocket League Profile's Tracker" Height="456" Width="738" ResizeMode="CanMinimize">
+        Title="RLTracker" Height="456" Width="738" ResizeMode="CanMinimize">
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands>
+            <Button x:Name="GithubButton" Click="LaunchGitHubSite" ToolTip="Open up the GitHub site" Content="">
+                <Button.ContentTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <iconPacks:PackIconModern Width="22"
+                                  Height="22"
+                                  Kind="SocialGithubOctocat" 
+                                    VerticalAlignment="Center"/>
+                            <TextBlock Margin="4 0 0 0"
+                         VerticalAlignment="Center"
+                         Text="{Binding}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </Button.ContentTemplate>
+            </Button>
+
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
     <Window.DataContext>
         <local:MainViewModel/>
     </Window.DataContext>
@@ -15,7 +36,6 @@
         <local:TextBlockWeightConverter x:Key="WeightConverter"/>
         <local:NullImageConverter x:Key="nullImageConverter"/>
         <local:FontColorConverter x:Key="colorConverter"/>
-        <Image x:Key="RefreshIcon" Source="appbar.refresh.png" />
     </Window.Resources>
 
     <Grid Background="#FF252525" Margin="0,0,0,-6">
@@ -25,17 +45,31 @@
         </Grid.RowDefinitions>
 
         <TextBox x:Name="UsernameTextBox" HorizontalAlignment="Left" Margin="10,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="190" Height="26"/>
-        <ComboBox x:Name="PlatformDropdown" HorizontalAlignment="Left" Margin="205,0,0,0" VerticalAlignment="Center" Width="73" Height="26">
+        <ComboBox x:Name="PlatformDropdown" HorizontalAlignment="Left" Margin="207,0,0,0" VerticalAlignment="Center" Width="73" Height="26">
             <ComboBoxItem Name="PC" IsSelected="True" Content="PC"/>
             <ComboBoxItem Name="Xbox" Content="Xbox" />
             <ComboBoxItem Name="PSN" Content="PSN" />
         </ComboBox>
 
-        <Button x:Name="SearchButton" Content="Search" HorizontalAlignment="Left" Margin="287,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="28" Width="50"/>
-        <Button x:Name="SettingsButton" Content="Settings" HorizontalAlignment="Right" Margin="0,8,43,0" VerticalAlignment="Top" Click="SettingsButton_Click" Height="28" Width="80"/>
-        <Button x:Name="ForceRefreshButton" Content="{StaticResource RefreshIcon}" HorizontalAlignment="Left" Margin="690,0,0,0" 
-                VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="35" Width="35" BorderBrush="Transparent"
-                Style="{DynamicResource MahApps.Styles.Button.Circle}"/>
+
+        <Button x:Name="UpdateButton" HorizontalAlignment="Left" Margin="561,0,0,0" Background="Transparent" VerticalAlignment="Center" 
+                Click="UpdateButton_Click" Height="50" Width="50" BorderThickness="0" ToolTip="Install Update" Visibility="Hidden"
+                Style="{DynamicResource MahApps.Styles.Button.Circle}">
+            <iconPacks:PackIconModern Kind="Download" Foreground="LightGreen"/>
+        </Button>
+        <Button x:Name="SearchButton" HorizontalAlignment="Left" Margin="279,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="50" 
+                Width="50" Background="Transparent" BorderThickness="0" Style="{DynamicResource MahApps.Styles.Button.Circle}">
+            <iconPacks:PackIconEvaIcons Kind="Search"/>
+        </Button>
+        <Button x:Name="SettingsButton" HorizontalAlignment="Left" Margin="616,0,0,0" VerticalAlignment="Center" Click="SettingsButton_Click" 
+                Height="50" Width="50" BorderThickness="0" Background="Transparent" Style="{DynamicResource MahApps.Styles.Button.Circle}" RenderTransformOrigin="0.277,0.181">
+            <iconPacks:FeatherIcons Kind="Settings"/>
+        </Button>
+        <Button x:Name="ForceRefreshButton" HorizontalAlignment="Left" Margin="671,0,0,0" 
+                VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="50" Width="50" BorderBrush="Transparent"
+                Style="{DynamicResource MahApps.Styles.Button.Circle}" ToolTip="Refresh" RenderTransformOrigin="0.211,0.276">
+            <iconPacks:PackIconModern  Kind="Refresh" />
+        </Button>
 
         <mah:ProgressRing x:Name="Spinner" Foreground="{DynamicResource MahApps.Brushes.Accent}"
                   IsActive="False" Height="21" Width="31" HorizontalAlignment="Left" Margin="353,0,0,0" Panel.ZIndex="999" />

@@ -4,6 +4,7 @@ using Common.Search;
 using MahApps.Metro.Controls;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
+using Onova;
 using Onova.Services;
 using System;
 using System.Collections.Generic;
@@ -23,6 +24,7 @@ namespace Tracker
         private RlTracker _tracker;
         public MainViewModel vm = new MainViewModel();
         private AppSettings _settings;
+        private UpdateManager _manager;
 
         public MainWindow(IOptions<AppSettings> settings)
         {
@@ -30,6 +32,8 @@ namespace Tracker
             _settings = settings.Value;
 
             InitializeComponent();
+            GithubButton.Content = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
 
             _tracker = new RlTracker();
 
@@ -50,29 +54,33 @@ namespace Tracker
 
         private async void CheckForUpdates()
         {
-            //todo modify so that we check for updates on a cycle and enable an update button to launch the update when its ready
-            using (var mgr = new Onova.UpdateManager(new GithubPackageResolver("kevinlay7", "RocketLeagueTracker", "*.zip"), new ZipPackageExtractor()))
+            if (!Debugger.IsAttached)
             {
-                var currentVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
-                var check = mgr.CheckForUpdatesAsync().GetAwaiter().GetResult();
+                //todo modify so that we check for updates on a cycle and enable an update button to launch the update when its ready
+                _manager = new Onova.UpdateManager(new GithubPackageResolver("kevinlay7", "RocketLeagueTracker", "*.zip"), new ZipPackageExtractor());
+                var check = await _manager.CheckForUpdatesAsync();
 
                 if (!check.CanUpdate)
                 {
                     return;
                 }
 
-                mgr.PrepareUpdateAsync(check.LastVersion).GetAwaiter().GetResult();
-
-                mgr.LaunchUpdater(check.LastVersion, true, "");
-                Environment.Exit(0);
-            }
+                UpdateButton.Visibility = Visibility.Visible;                
+            }           
         }
 
-        //todo move the searchdata to a viewmodel
+        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            var check = _manager.CheckForUpdatesAsync().GetAwaiter().GetResult();
+            _manager.PrepareUpdateAsync(check.LastVersion).GetAwaiter().GetResult();
 
-        //I'm sure theres a better place for this
+            _manager.LaunchUpdater(check.LastVersion, true, "");
+            Environment.Exit(0);
+        }
+
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"{e.Action}");
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (TrackedUser item in e.OldItems)
@@ -141,10 +149,10 @@ namespace Tracker
             }
         }
 
-        private async void SettingsButton_Click(object sender, RoutedEventArgs e)
+        private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingswindow = new SettingsWindow(_settings);
-
+            settingswindow.Owner = GetWindow(this);
             try
             {
                 settingswindow.Show();
@@ -224,5 +232,37 @@ namespace Tracker
                 }
             }
         }
+
+        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
+        {
+            var url = "https://github.com/kevinLay7/RocketLeagueTracker";
+            try
+            {
+                System.Diagnostics.Process.Start(url);
+            }
+            catch (System.Exception other)
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    MessageBox.Show(other.ToString());
+                }
+            }
+        }
+
+
     }
 }

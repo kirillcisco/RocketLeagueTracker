@@ -11,14 +11,15 @@ namespace Tracker
 {
     public class AppSettings
     {
-        private string filePath = Path.Combine(AppContext.BaseDirectory, "appSettings.json");
+        private string defaultFilePath = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData) + "\\RlTracker\\";
+        private readonly string settingsFilePath = Path.Combine(AppContext.BaseDirectory, "appSettings.json");
 
         private void TrySave<T>(Expression<Func<T>> expression)
         {
             PropertyInfo property = ((MemberExpression)expression.Body).Member as PropertyInfo;
             if(property != null)
             {
-                string json = File.ReadAllText(filePath);
+                string json = File.ReadAllText(settingsFilePath);
                 dynamic jsonObj = Newtonsoft.Json.JsonConvert.DeserializeObject(json);
                 var section = jsonObj["AppSettings"];
 
@@ -42,14 +43,21 @@ namespace Tracker
                     section[property.Name] = newValue;
 
                     string output = JsonConvert.SerializeObject(jsonObj, Formatting.Indented);
-                    System.IO.File.WriteAllText(filePath, output);
+                    System.IO.File.WriteAllText(settingsFilePath, output);
                 }
             }
         }
 
         private string _cacheFolderLocation;
         public string CacheFolderLocation {
-            get => _cacheFolderLocation;
+            get {
+                if (string.IsNullOrEmpty(_cacheFolderLocation))
+                {
+                    CacheFolderLocation = defaultFilePath;
+                }
+
+                return _cacheFolderLocation;
+            }
             set
             {
                 if(_cacheFolderLocation != value)
@@ -60,7 +68,47 @@ namespace Tracker
             }
         }
 
+        private string _saveFolderLocation;
+        public string SaveFolderLocation
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_saveFolderLocation))
+                {
+                    SaveFolderLocation = defaultFilePath;
+                }
 
+                return _saveFolderLocation;
+            }
+            set
+            {
+                if (_saveFolderLocation != value)
+                {
+                    _saveFolderLocation = value;
+                    TrySave(() => SaveFolderLocation);
+                }
+            }
+        }
 
+        private bool? _autoUpdate;
+        public bool AutoUpdate
+        {
+            get
+            {
+                if(_autoUpdate.HasValue == false)
+                {
+                    return false;
+                }
+                return _autoUpdate.Value;
+            }
+            set
+            {
+                if(_autoUpdate != value)
+                {
+                    _autoUpdate = value;
+                    TrySave(() => AutoUpdate);
+                }
+            }
+        }
     }
 }
