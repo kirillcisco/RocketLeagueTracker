@@ -44,8 +44,9 @@
             <RowDefinition Height="200*"/>
         </Grid.RowDefinitions>
 
-        <TextBox x:Name="UsernameTextBox" HorizontalAlignment="Left" Margin="10,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="190" Height="26"/>
-        <ComboBox x:Name="PlatformDropdown" HorizontalAlignment="Left" Margin="207,0,0,0" VerticalAlignment="Center" Width="73" Height="26">
+        <TextBox x:Name="UsernameTextBox" HorizontalAlignment="Left" Margin="10,0,0,0" Text="" TextWrapping="Wrap" VerticalAlignment="Center" Width="192" Height="26" BorderThickness="0 0 0 1" 
+                 mah:ControlsHelper.FocusBorderBrush="{DynamicResource MahApps.Brushes.Accent}" mah:TextBoxHelper.Watermark="Username or Id"/>
+        <ComboBox x:Name="PlatformDropdown" HorizontalAlignment="Left" Margin="207,0,0,0" VerticalAlignment="Center" Width="54" Height="26" BorderThickness="0" mah:ControlsHelper.FocusBorderBrush="{DynamicResource MahApps.Brushes.Accent}">
             <ComboBoxItem Name="PC" IsSelected="True" Content="PC"/>
             <ComboBoxItem Name="Xbox" Content="Xbox" />
             <ComboBoxItem Name="PSN" Content="PSN" />
@@ -53,26 +54,28 @@
 
 
         <Button x:Name="UpdateButton" HorizontalAlignment="Left" Margin="561,0,0,0" Background="Transparent" VerticalAlignment="Center" 
-                Click="UpdateButton_Click" Height="50" Width="50" BorderThickness="0" ToolTip="Install Update" Visibility="Hidden"
+                Click="UpdateButton_Click" Height="40" Width="40" BorderThickness="0" ToolTip="Install Update" Visibility="Hidden"
                 Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <iconPacks:PackIconModern Kind="Download" Foreground="LightGreen"/>
         </Button>
-        <Button x:Name="SearchButton" HorizontalAlignment="Left" Margin="279,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="50" 
-                Width="50" Background="Transparent" BorderThickness="0" Style="{DynamicResource MahApps.Styles.Button.Circle}">
+        <Button x:Name="SearchButton" HorizontalAlignment="Left" Margin="261,0,0,0" VerticalAlignment="Center" Click="SearchButton_Click" Height="40" 
+                Width="40" Background="Transparent" BorderThickness="0" Style="{DynamicResource MahApps.Styles.Button.Circle}">
             <iconPacks:PackIconEvaIcons Kind="Search"/>
         </Button>
-        <Button x:Name="SettingsButton" HorizontalAlignment="Left" Margin="616,0,0,0" VerticalAlignment="Center" Click="SettingsButton_Click" 
-                Height="50" Width="50" BorderThickness="0" Background="Transparent" Style="{DynamicResource MahApps.Styles.Button.Circle}" RenderTransformOrigin="0.277,0.181">
+        <Button x:Name="SettingsButton" HorizontalAlignment="Left" Margin="616,0,0,0" VerticalAlignment="Center" Click="SettingsButton_Click" Visibility="Hidden"
+                Height="40" Width="40" BorderThickness="0" Background="Transparent" Style="{DynamicResource MahApps.Styles.Button.Circle}" RenderTransformOrigin="0.277,0.181">
             <iconPacks:FeatherIcons Kind="Settings"/>
         </Button>
-        <Button x:Name="ForceRefreshButton" HorizontalAlignment="Left" Margin="671,0,0,0" 
-                VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="50" Width="50" BorderBrush="Transparent"
+        <Button x:Name="ForceRefreshButton" HorizontalAlignment="Left" Margin="661,0,0,0" 
+                VerticalAlignment="Center" Click="ForceRefreshButton_Click"  Height="40" Width="40" BorderBrush="Transparent"
                 Style="{DynamicResource MahApps.Styles.Button.Circle}" ToolTip="Refresh" RenderTransformOrigin="0.211,0.276">
-            <iconPacks:PackIconModern  Kind="Refresh" />
+            <iconPacks:PackIconModern  Kind="Refresh"/>
         </Button>
+
 
         <mah:ProgressRing x:Name="Spinner" Foreground="{DynamicResource MahApps.Brushes.Accent}"
                   IsActive="False" Height="21" Width="31" HorizontalAlignment="Left" Margin="353,0,0,0" Panel.ZIndex="999" />
+
 
         <DataGrid x:Name="SearchResults" BorderThickness="2" BorderBrush="white" Visibility="Hidden" AutoGenerateColumns="False" Margin="0,15,0,54" Panel.ZIndex="100" HorizontalAlignment="Center" Width="490" HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Visible" Grid.Row="1">
             <DataGrid.Columns>
@@ -228,13 +231,15 @@
                 </ListView.View>
                 <ListView.ContextMenu>
                     <ContextMenu Name="menu">
+                        <MenuItem Header="Move Up" Click="MoveUp_Click"></MenuItem>
+                        <MenuItem Header="Move Down" Click="MoveDown_Click"></MenuItem>
                         <MenuItem Header="Open Tracker" Click="MenuItem_Click"></MenuItem>
                         <MenuItem Header="Remove Tracked User" Click="RemoveTrackedUserButton_Click"/>
                     </ContextMenu>
                 </ListView.ContextMenu>
             </ListView>
 
-            <Label x:Name="updateTime" Content="{Binding LastUpdate}" HorizontalAlignment="Right" Width="165" Height="25" VerticalAlignment="Top" Margin="0,375,10,0"/>
+            <Label x:Name="updateTime" Content="{Binding LastUpdate}" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="149" Height="25" VerticalAlignment="Top" Margin="0,351,5,0"/>
         </Grid>
 
 

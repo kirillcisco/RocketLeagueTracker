@@ -1,11 +1,12 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Common.Models
 {
     public static class ViewModelMapper
     {
-        public static void TrackedUser(TrackedUser user, ref TrackedUserViewModel vm)
+        public static void TrackedUser(TrackedUser user,TrackedUserViewModel vm)
         {
             var defaultUri = @"https://trackercdn.com/cdn/tracker.gg/rocket-league/ranks/s4-0.png";
 
@@ -17,6 +18,7 @@ namespace Common.Models
                 vm.Platform = user.PlatForm;
                 vm.Avatar = user.Data.PlatformInfo.AvatarUrl;
                 vm.PlayerUri = new Uri($"https://rocketleague.tracker.network/rocket-league/profile/{Common.Search.RlTracker.GetPlatformString(user.PlatForm)}/{user.UserId}");
+                vm.SortOrder = user.SortOrder;
 
                 var causal = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 0);
                 if (causal != null)
