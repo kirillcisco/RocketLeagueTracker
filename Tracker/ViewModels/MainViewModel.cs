@@ -1,8 +1,11 @@
 ﻿using Common;
 using Common.Models;
 using System;
+using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 
 namespace Tracker
@@ -11,13 +14,26 @@ namespace Tracker
     {
         public MainViewModel()
         {
-            Users = new ObservableCollection<TrackedUserViewModel>() { };
+            _users = new ObservableCollection<TrackedUserViewModel>() { };
         }
 
         private DateTime? lastUpdate;
         public DateTime? LastUpdate { get => lastUpdate; set { if (lastUpdate != value) { lastUpdate = value; NotifyPropertyChanged(); } } }
 
-        public ObservableCollection<TrackedUserViewModel> Users { get; set; }
+        private ObservableCollection<TrackedUserViewModel> _users;
+        public ObservableCollection<TrackedUserViewModel> Users
+        {
+            get
+            {
+                _users.Sort();
+                return _users;
+            }
+            set
+            {
+                _users = value;
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
@@ -55,5 +71,8 @@ namespace Tracker
 
             return user;
         }
+
+
     }
+
 }

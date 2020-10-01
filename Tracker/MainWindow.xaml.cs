@@ -1,7 +1,9 @@
 ﻿using Common.Models;
 using Common.Models.Search;
 using Common.Search;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Onova;
@@ -13,13 +15,16 @@ using System.Diagnostics;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Tracker
 {
     public partial class MainWindow : MetroWindow
     {
-        private SettingsManager _SettingsManager;
         private TrackedUsersManager _trackedUsersManager;
         private RlTracker _tracker;
         public MainViewModel vm = new MainViewModel();
@@ -28,27 +33,19 @@ namespace Tracker
 
         public MainWindow(IOptions<AppSettings> settings)
         {
-            //Access the AppSettings object that is read in automatically from the IOC container
             _settings = settings.Value;
 
             InitializeComponent();
             GithubButton.Content = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-
             _tracker = new RlTracker();
-
-            _trackedUsersManager = new TrackedUsersManager(_tracker);
-            _SettingsManager = new SettingsManager();
+            _trackedUsersManager = new TrackedUsersManager(_tracker, _settings);
             _trackedUsersManager.Users.CollectionChanged += Users_CollectionChanged;
             _trackedUsersManager.Start();
-            _SettingsManager.Start();
-
 
             CachedImage.FileCache.AppCacheMode = CachedImage.FileCache.CacheMode.Dedicated;
 
-            //set viewmodel 
             this.DataContext = vm;
-
             CheckForUpdates();
         }
 
@@ -65,22 +62,18 @@ namespace Tracker
                     return;
                 }
 
-                UpdateButton.Visibility = Visibility.Visible;                
-            }           
+                UpdateButton.Visibility = Visibility.Visible;
+            }
         }
 
-        private void UpdateButton_Click(object sender, RoutedEventArgs e)
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
         {
-            var check = _manager.CheckForUpdatesAsync().GetAwaiter().GetResult();
-            _manager.PrepareUpdateAsync(check.LastVersion).GetAwaiter().GetResult();
-
-            _manager.LaunchUpdater(check.LastVersion, true, "");
-            Environment.Exit(0);
+            await this.ShowProgressAsync("Updating", "The window will disapper and it may take a minute beofre it re-opens.  Do not manually re-launch!");
+            await _manager.CheckPerformUpdateAsync();
         }
 
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            System.Diagnostics.Debug.WriteLine($"{e.Action}");
             if (e.Action == NotifyCollectionChangedAction.Remove)
             {
                 foreach (TrackedUser item in e.OldItems)
@@ -96,25 +89,43 @@ namespace Tracker
             {
                 foreach (TrackedUser item in e.NewItems)
                 {
+                    var instance = vm.Users.FirstOrDefault(vm => vm.UserId == item.UserId);
+                    if (instance != null)
+                        return;
+
                     var newInstance = new TrackedUserViewModel();
-                    ViewModelMapper.TrackedUser(item, ref newInstance);
+                    ViewModelMapper.TrackedUser(item, newInstance);
                     vm.Users.Add(newInstance);
                 }
             }
-            if (e.Action == NotifyCollectionChangedAction.Replace) 
+            if (e.Action == NotifyCollectionChangedAction.Replace)
             {
                 foreach (TrackedUser item in e.NewItems)
                 {
                     var instance = vm.Users.FirstOrDefault(vm => vm.UserId == item.UserId);
-                    if(instance == null)
+                    if (instance == null)
                     {
                         instance = new TrackedUserViewModel();
                         vm.Users.Add(instance);
                     }
-                    ViewModelMapper.TrackedUser(item, ref instance);
+                    ViewModelMapper.TrackedUser(item, instance);
+                }
+            }
+            if(e.Action == NotifyCollectionChangedAction.Move)
+            {
+                foreach (TrackedUser item in e.NewItems)
+                {
+                    var instance = vm.Users.FirstOrDefault(vm => vm.UserId == item.UserId);
+                    if (instance == null)
+                    {
+                        instance = new TrackedUserViewModel();
+                        vm.Users.Add(instance);
+                    }
+                    ViewModelMapper.TrackedUser(item, instance);
                 }
             }
             vm.LastUpdate = DateTime.Now;
+
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -165,9 +176,6 @@ namespace Tracker
             {
 
             }
-
-            // ToDo tomorrow
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
@@ -264,5 +272,28 @@ namespace Tracker
         }
 
 
+
+        private void MoveUp_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+            if (selectedItem != null)
+                _trackedUsersManager.ShiftUp(selectedItem.UserId);
+        }
+
+        private void MoveDown_Click(object sender, RoutedEventArgs e)
+        {
+            var selectedItem = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+            if (selectedItem != null)
+                _trackedUsersManager.ShiftDown(selectedItem.UserId);
+        }
+
+        private void TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            var accentColor = ThemeManager.Current.DetectTheme().PrimaryAccentColor;
+            dynamic item = sender;
+            ColorAnimation ca = new ColorAnimation(Colors.White, new Duration(TimeSpan.FromSeconds(10)));
+            item.Foreground = new SolidColorBrush(accentColor);
+            item.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, ca);
+        }
     }
 }

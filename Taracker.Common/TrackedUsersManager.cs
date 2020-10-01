@@ -17,10 +17,24 @@ namespace Tracker
     public class TrackedUsersManager
     {
         private readonly string trackedUsersFile = Constants.SaveLocation + "tracked.json";
-        public ObservableCollection<TrackedUser> Users = new ObservableCollection<TrackedUser>();
         private RlTracker _searcher;
         private CancellationTokenSource _tokenSource;
         private SynchronizationContext _context;
+        private AppSettings _settings;
+
+        private ObservableCollection<TrackedUser> _users;
+        public ObservableCollection<TrackedUser> Users
+        {
+            get
+            {
+                _users.Sort();
+                return _users;
+            }
+            set
+            {
+                _users = value;
+            }
+        }
 
         #region Constructors
 
@@ -28,8 +42,10 @@ namespace Tracker
         /// Manager for tracked users
         /// </summary>
         /// <param name="searcher">Instance used to Update tracked users</param>
-        public TrackedUsersManager(RlTracker searcher) : base()
+        public TrackedUsersManager(RlTracker searcher, AppSettings settings) : base()
         {
+            _settings = settings;
+            _users = new ObservableCollection<TrackedUser>();
             _searcher = searcher;
             _tokenSource = new CancellationTokenSource();
             _context = SynchronizationContext.Current;
@@ -74,8 +90,11 @@ namespace Tracker
 
             await RefreshUser(trackedUser);
 
-            if (!Users.Any(x => x.UserId == trackedUser.UserId))
-                Users.Add(trackedUser);
+            if (!_users.Any(x => x.UserId == trackedUser.UserId))
+            {
+                trackedUser.SortOrder = this._users.Count;
+                _users.Add(trackedUser);
+            }
 
             Save();
         }
@@ -87,10 +106,22 @@ namespace Tracker
         public void Remove(string userId)
         {
             var l = long.Parse(userId);
-            if (!Users.Any(x => x.UserId == l))
+            if (!_users.Any(x => x.UserId == l))
                 return;
 
-            Users.Remove(Users.First(x => x.UserId == l));
+            var user = _users.First(x => x.UserId == l);
+
+            _users.Remove(user);
+
+            var userSortIndex = user.SortOrder;
+
+            if(userSortIndex != null)
+            {
+                foreach (var u in _users.Where(x => x.SortOrder > userSortIndex))
+                {
+                    u.SortOrder -= 1;
+                }
+            }
 
             Save();
         }
@@ -101,6 +132,7 @@ namespace Tracker
         public void ForceRefresh()
         {
             RefreshTrackedUsers(true);
+            Save();
         }
 
         /// <summary>
@@ -111,7 +143,39 @@ namespace Tracker
         public bool IsTracked(string userId)
         {
             var l = long.Parse(userId);
-            return Users.Any(x => x.UserId == l);
+            return _users.Any(x => x.UserId == l);
+        }
+
+        public void ShiftUp(long userId)
+        {
+            var reference = _users.First(x => x.UserId == userId);
+            var oldIndex = reference.SortOrder;
+            var newIndex = reference.SortOrder - 1;
+            if (newIndex < 0 || newIndex >= _users.Count)
+                return;
+
+            var itemToSwitch = _users.First(x => x.SortOrder == newIndex);
+            itemToSwitch.SortOrder = oldIndex;
+            reference.SortOrder = newIndex;
+
+            _ = Users;
+            Save();
+        }
+
+        public void ShiftDown(long userId)
+        {
+            var reference = Users.First(x => x.UserId == userId);
+            var oldIndex = reference.SortOrder;
+            var newIndex = reference.SortOrder + 1;
+            if (newIndex < 0 || newIndex >= _users.Count)
+                return;
+
+            var itemToSwitch = Users.First(x => x.SortOrder == newIndex);
+            itemToSwitch.SortOrder = oldIndex;   
+            reference.SortOrder = newIndex;
+
+            _ = Users;
+            Save();
         }
 
         #endregion
@@ -127,21 +191,21 @@ namespace Tracker
             if (string.IsNullOrEmpty(settingString))
                 return;
 
-            Users.Clear();
+            _users.Clear();
 
             var users = JsonConvert.DeserializeObject<List<TrackedUser>>(settingString);
 
             foreach (var user in users)
             {
-                Users.Add(user);
+                _users.Add(user);
             }
         }
 
-        private void Save()
+        public void Save()
         {
             try
             {
-                var stringInfo = JsonConvert.SerializeObject(Users);
+                var stringInfo = JsonConvert.SerializeObject(_users);
                 System.IO.File.WriteAllText(trackedUsersFile, stringInfo);
             }
             catch (Exception ex)
@@ -154,14 +218,15 @@ namespace Tracker
 
         #region Private
 
-        private void RefreshTrackedUsers(bool force = false)
+        private bool RefreshTrackedUsers(bool force = false)
         {
-            var temp = Users.ToArray();
+            bool changes = false;
+            var temp = _users.ToArray();
 
             for (int i = 0; i < temp.Length - 1; i++)
             {
                 var user = temp[i];
-                if (user.LastUpdate.HasValue && user.LastUpdate.Value <= DateTime.Now.AddMinutes(-5) || force)
+                if (user.LastUpdate.HasValue && user.LastUpdate.Value < DateTime.Now.AddMinutes(-_settings.RefreshMins.Value) || force)
                 {
                     try
                     {
@@ -177,11 +242,12 @@ namespace Tracker
                         System.Diagnostics.Debug.WriteLine($"Error refreshing user: {ex.ToString()}");
                     }
 
-                    _context.Send(x => Users[i] = user, null);
-                    Save();
+                    _context.Send(x => _users[i] = user, null);
+                    changes = true;
                 }
-
             }
+
+            return changes;
         }
 
         private Task BackgroundProcessing(CancellationToken token)
@@ -190,8 +256,10 @@ namespace Tracker
             {
                 while (!token.IsCancellationRequested)
                 {
-                    RefreshTrackedUsers();
-                    await Task.Delay(1000);
+                    var changes = RefreshTrackedUsers();
+                    if (changes)
+                        Save();
+                    await Task.Delay(10000);
                 }
             }, token);
         }
@@ -204,7 +272,5 @@ namespace Tracker
 
         #endregion
     }
-
-
 
 }

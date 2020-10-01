@@ -2,8 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Configuration;
-using System.IO;
 using System.Windows;
 
 namespace Tracker
@@ -23,7 +21,7 @@ namespace Tracker
             host = Host.CreateDefaultBuilder()
                 .ConfigureAppConfiguration((context, builder) =>
                 {
-                    builder.AddJsonFile("appSettings.json", false, true);
+                    builder.AddJsonFile("appSettings.json", true, true);
                 })
                 .ConfigureServices((context, services) =>
                 {
