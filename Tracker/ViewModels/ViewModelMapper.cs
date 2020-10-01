@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using Tracker;
 
 namespace Common.Models
 {
@@ -94,6 +95,14 @@ namespace Common.Models
             {
 
             }
+        }
+
+        public static void SettingsViewModel(AppSettings settings, SettingsViewModel model)
+        {
+            model.AutoUpdate = settings.AutoUpdate;
+            model.MinimizeToTray = settings.MinimizeToTray.Value;
+            model.RefreshMinutes = settings.RefreshMins.Value;
+            model.SaveLocation = settings.SaveFolderLocation;
         }
     }
 }

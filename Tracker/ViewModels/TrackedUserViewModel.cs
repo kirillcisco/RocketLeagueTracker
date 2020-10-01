@@ -76,8 +76,6 @@ namespace Common.Models
         // parameter causes the property name of the caller to be substituted as an argument.  
         private void NotifyPropertyChanged([CallerMemberName] String propertyName = "")
         {
-            if (!string.IsNullOrEmpty(propertyName))
-                System.Diagnostics.Debug.WriteLine($"{this.Name} | Changed property {propertyName} value: {typeof(TrackedUserViewModel).GetProperty(propertyName).GetValue(this)}");
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
