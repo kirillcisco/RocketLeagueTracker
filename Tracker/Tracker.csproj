@@ -6,9 +6,9 @@
     <UseWPF>true</UseWPF>
     <Configurations>Debug;Release;TrackerSettings</Configurations>
     <StartupObject>Tracker.App</StartupObject>
-    <AssemblyVersion>0.1.6.0</AssemblyVersion>
-    <FileVersion>0.1.6.0</FileVersion>
-    <Version>0.1.6</Version>
+    <AssemblyVersion>0.1.7.0</AssemblyVersion>
+    <FileVersion>0.1.7.0</FileVersion>
+    <Version>0.1.7</Version>
     <PackageId>RLTracker</PackageId>
     <Authors>W33p</Authors>
     <Product>RLTracker</Product>

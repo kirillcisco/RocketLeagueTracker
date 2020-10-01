@@ -17,8 +17,8 @@ namespace Tracker
             //If the settings file doesn't exist, create it.
             if (!System.IO.File.Exists(settingsFilePath))
             {
-                System.IO.File.WriteAllText(settingsFilePath, "{\"AppSettings\":{}}");
                 SetDefaults();
+                System.IO.File.WriteAllText(settingsFilePath, JsonConvert.SerializeObject(this));
             }
         }
         
@@ -27,6 +27,7 @@ namespace Tracker
             CacheFolderLocation = Path.Combine(defaultFilePath, "Cache");
             SaveFolderLocation = defaultFilePath;
             AutoUpdate = false;
+            RefreshMins = 5;
         }
 
 
@@ -123,6 +124,27 @@ namespace Tracker
                 {
                     _autoUpdate = value;
                     TrySave(() => AutoUpdate);
+                }
+            }
+        }
+
+        public int? _refreshMins;
+        public int? RefreshMins
+        {
+            get
+            {
+                if (_refreshMins.HasValue == false)
+                {
+                    return 5;
+                }
+                return _refreshMins;
+            }
+            set
+            {
+                if(_refreshMins != value)
+                {
+                    _refreshMins = value;
+                    TrySave(() => RefreshMins);
                 }
             }
         }

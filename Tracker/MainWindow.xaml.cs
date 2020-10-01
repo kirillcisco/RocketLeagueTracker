@@ -1,6 +1,7 @@
 ﻿using Common.Models;
 using Common.Models.Search;
 using Common.Search;
+using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -16,6 +17,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
+using System.Windows.Media.Animation;
 
 namespace Tracker
 {
@@ -35,7 +39,7 @@ namespace Tracker
             GithubButton.Content = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
             _tracker = new RlTracker();
-            _trackedUsersManager = new TrackedUsersManager(_tracker);
+            _trackedUsersManager = new TrackedUsersManager(_tracker, _settings);
             _trackedUsersManager.Users.CollectionChanged += Users_CollectionChanged;
             _trackedUsersManager.Start();
 
@@ -121,6 +125,7 @@ namespace Tracker
                 }
             }
             vm.LastUpdate = DateTime.Now;
+
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -282,5 +287,13 @@ namespace Tracker
                 _trackedUsersManager.ShiftDown(selectedItem.UserId);
         }
 
+        private void TargetUpdated(object sender, DataTransferEventArgs e)
+        {
+            var accentColor = ThemeManager.Current.DetectTheme().PrimaryAccentColor;
+            dynamic item = sender;
+            ColorAnimation ca = new ColorAnimation(Colors.White, new Duration(TimeSpan.FromSeconds(10)));
+            item.Foreground = new SolidColorBrush(accentColor);
+            item.Foreground.BeginAnimation(SolidColorBrush.ColorProperty, ca);
+        }
     }
 }

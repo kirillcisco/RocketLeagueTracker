@@ -173,9 +173,10 @@
                                     <DataTemplate>
                                         <DockPanel>
                                             <cachedImage:Image DockPanel.Dock="Top" Source="{Binding CasualPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding CasualMatchesPlayed}"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding CasualMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                           FontWeight="{Binding CasualMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                           Foreground="{Binding CasualMatchesPlayed, Converter={StaticResource colorConverter}}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding CasualMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                FontWeight="{Binding CasualMatchesPlayed, Converter={StaticResource WeightConverter}}" 
+                                                Foreground="{Binding CasualMatchesPlayed, Converter={StaticResource colorConverter}}"
+                                                TargetUpdated="TargetUpdated"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -185,9 +186,10 @@
                                     <DataTemplate>
                                         <DockPanel>
                                             <cachedImage:Image DockPanel.Dock="Top" Source="{Binding ThreesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding ThreesMatchesPlayed}"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding ThreesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                           FontWeight="{Binding ThreesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                           Foreground="{Binding ThreesMatchesPlayed, Converter={StaticResource colorConverter}}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding Path=ThreesMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                FontWeight="{Binding ThreesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
+                                                Foreground="{Binding ThreesMatchesPlayed, Converter={StaticResource colorConverter}}"
+                                                TargetUpdated="TargetUpdated"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -197,9 +199,11 @@
                                     <DataTemplate>
                                         <DockPanel>
                                             <cachedImage:Image DockPanel.Dock="Top" Source="{Binding TwosPic , Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding TwosMatchesPlayed}"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TwosMmr" Grid.Row="1" Text="{Binding TwosMmr}" HorizontalAlignment="Center" 
-                                                           VerticalAlignment="Center" FontWeight="{Binding TwosMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                           Foreground="{Binding TwosMatchesPlayed, Converter={StaticResource colorConverter}}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TwosMmr" Grid.Row="1" Text="{Binding TwosMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" 
+                                                VerticalAlignment="Center" 
+                                                FontWeight="{Binding TwosMatchesPlayed, Converter={StaticResource WeightConverter}}" 
+                                                Foreground="{Binding TwosMatchesPlayed, Converter={StaticResource colorConverter}}"
+                                                TargetUpdated="TargetUpdated"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -209,9 +213,10 @@
                                     <DataTemplate>
                                         <DockPanel>
                                             <cachedImage:Image DockPanel.Dock="Top" Source="{Binding OnesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding OnesMatchesPlayed}" />
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="OnesMmr" Grid.Row="1" Text="{Binding OnesMmr}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                           FontWeight="{Binding OnesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                           Foreground="{Binding OnesMatchesPlayed, Converter={StaticResource colorConverter}}"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="OnesMmr" Grid.Row="1" Text="{Binding OnesMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" 
+                                                FontWeight="{Binding OnesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
+                                                Foreground="{Binding OnesMatchesPlayed, Converter={StaticResource colorConverter}}"
+                                                TargetUpdated="TargetUpdated"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -220,8 +225,8 @@
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
                                         <DockPanel>
-                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding TournamentsPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TournamentsMmr" Grid.Row="1" Text="{Binding TournamentsMmr}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding Path=TournamentsMmr, Converter={StaticResource nullImageConverter}}" Height="40" Width="40"/>
+                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TournamentsMmr" Grid.Row="1" Text="{Binding TournamentsMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                         </DockPanel>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
@@ -241,11 +246,6 @@
 
             <Label x:Name="updateTime" Content="{Binding LastUpdate}" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="149" Height="25" VerticalAlignment="Top" Margin="0,351,5,0"/>
         </Grid>
-
-
-
-
-
 
     </Grid>
 </mah:MetroWindow>

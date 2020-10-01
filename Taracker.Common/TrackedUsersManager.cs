@@ -20,6 +20,7 @@ namespace Tracker
         private RlTracker _searcher;
         private CancellationTokenSource _tokenSource;
         private SynchronizationContext _context;
+        private AppSettings _settings;
 
         private ObservableCollection<TrackedUser> _users;
         public ObservableCollection<TrackedUser> Users
@@ -41,8 +42,9 @@ namespace Tracker
         /// Manager for tracked users
         /// </summary>
         /// <param name="searcher">Instance used to Update tracked users</param>
-        public TrackedUsersManager(RlTracker searcher) : base()
+        public TrackedUsersManager(RlTracker searcher, AppSettings settings) : base()
         {
+            _settings = settings;
             _users = new ObservableCollection<TrackedUser>();
             _searcher = searcher;
             _tokenSource = new CancellationTokenSource();
@@ -50,8 +52,6 @@ namespace Tracker
         }
 
         #endregion
-
-
 
         #region Public
 
@@ -132,6 +132,7 @@ namespace Tracker
         public void ForceRefresh()
         {
             RefreshTrackedUsers(true);
+            Save();
         }
 
         /// <summary>
@@ -204,7 +205,7 @@ namespace Tracker
         {
             try
             {
-                var stringInfo = JsonConvert.SerializeObject(Users);
+                var stringInfo = JsonConvert.SerializeObject(_users);
                 System.IO.File.WriteAllText(trackedUsersFile, stringInfo);
             }
             catch (Exception ex)
@@ -217,14 +218,15 @@ namespace Tracker
 
         #region Private
 
-        private void RefreshTrackedUsers(bool force = false)
+        private bool RefreshTrackedUsers(bool force = false)
         {
+            bool changes = false;
             var temp = _users.ToArray();
 
             for (int i = 0; i < temp.Length - 1; i++)
             {
                 var user = temp[i];
-                if (user.LastUpdate.HasValue && user.LastUpdate.Value <= DateTime.Now.AddMinutes(-5) || force)
+                if (user.LastUpdate.HasValue && user.LastUpdate.Value < DateTime.Now.AddMinutes(-_settings.RefreshMins.Value) || force)
                 {
                     try
                     {
@@ -241,8 +243,11 @@ namespace Tracker
                     }
 
                     _context.Send(x => _users[i] = user, null);
+                    changes = true;
                 }
             }
+
+            return changes;
         }
 
         private Task BackgroundProcessing(CancellationToken token)
@@ -251,8 +256,10 @@ namespace Tracker
             {
                 while (!token.IsCancellationRequested)
                 {
-                    RefreshTrackedUsers();
-                    await Task.Delay(1000);
+                    var changes = RefreshTrackedUsers();
+                    if (changes)
+                        Save();
+                    await Task.Delay(10000);
                 }
             }, token);
         }
