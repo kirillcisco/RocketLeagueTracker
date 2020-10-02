@@ -201,5 +201,47 @@ namespace Tracker
                 }
             }
         }
+
+        public bool? _useDarkMode;
+        public bool? UseDarkMode
+        {
+            get
+            {
+                if(_useDarkMode.HasValue == false)
+                {
+                    return true;
+                }
+                return _useDarkMode;
+            }
+            set
+            {
+                if(_useDarkMode != value)
+                {
+                    _useDarkMode = value;
+                    TrySave(() => UseDarkMode);
+                }
+            }
+        }
+
+        public string _color;
+        public string Color
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_color))
+                {
+                    return "Cobalt";
+                }
+                return _color;
+            }
+            set
+            {
+                if (_color != value)
+                {
+                    _color = value;
+                    TrySave(() => Color);
+                }
+            }
+        }
     }
 }

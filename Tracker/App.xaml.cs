@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using ControlzEx.Theming;
+using System.Windows;
 
 namespace Tracker
 {
@@ -9,7 +10,13 @@ namespace Tracker
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var window = new MainWindow();
+            var settings = AppSettings.Load();
+
+            //Set theme
+            ThemeManager.Current.ChangeThemeColorScheme(this, settings.Color);        
+            ThemeManager.Current.ChangeThemeBaseColor(this, settings.UseDarkMode.Value ? "Dark" : "Light");
+
+            var window = new MainWindow(settings);
             window.Show();
         }
     }

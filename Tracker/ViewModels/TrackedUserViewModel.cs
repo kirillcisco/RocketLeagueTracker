@@ -68,7 +68,7 @@ namespace Common.Models
         public Uri PlayerUri { get => playerUri; set { if (playerUri != value) { playerUri = value; } } }
 
         private int? sortOrder;
-        public int? SortOrder { get => sortOrder; set { if (sortOrder != value) { sortOrder = value; NotifyPropertyChanged(nameof(SortOrder)); } } }
+        public int? SortOrder { get { if (sortOrder.HasValue == false) { return 99; } return sortOrder; } set { if (sortOrder != value) { sortOrder = value; NotifyPropertyChanged(nameof(SortOrder)); } } }
 
         public event PropertyChangedEventHandler PropertyChanged;
         // This method is called by the Set accessor of each property.  

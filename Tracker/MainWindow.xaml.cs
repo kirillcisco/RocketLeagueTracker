@@ -29,9 +29,9 @@ namespace Tracker
         private AppSettings _settings;
         private UpdateManager _manager;
 
-        public MainWindow()
+        public MainWindow(AppSettings settings)
         {
-            _settings = AppSettings.Load();
+            _settings = settings;
 
             InitializeComponent();
             GithubButton.Content = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -45,6 +45,7 @@ namespace Tracker
 
             this.DataContext = vm;
             CheckForUpdates();
+
         }
 
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -167,7 +168,7 @@ namespace Tracker
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingswindow = new SettingsWindow(_settings);
-            settingswindow.Owner = GetWindow(this);
+            settingswindow.Owner = this;
             try
             {
                 settingswindow.Show();

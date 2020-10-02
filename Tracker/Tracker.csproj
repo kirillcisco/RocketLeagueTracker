@@ -6,9 +6,9 @@
     <UseWPF>true</UseWPF>
     <Configurations>Debug;Release;TrackerSettings</Configurations>
     <StartupObject>Tracker.App</StartupObject>
-    <AssemblyVersion>0.1.8.0</AssemblyVersion>
-    <FileVersion>0.1.8.0</FileVersion>
-    <Version>0.1.8</Version>
+    <AssemblyVersion>0.1.9.0</AssemblyVersion>
+    <FileVersion>0.1.9.0</FileVersion>
+    <Version>0.1.9</Version>
     <PackageId>RLTracker</PackageId>
     <Authors>W33p</Authors>
     <Product>RLTracker</Product>
@@ -30,9 +30,7 @@
   <ItemGroup>
     <PackageReference Include="CachedImage" Version="0.1.13" />
     <PackageReference Include="MahApps.Metro" Version="2.2.0" />
-    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.5.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Extensions.Hosting" Version="3.1.8" />    
+    <PackageReference Include="MahApps.Metro.IconPacks" Version="4.5.0" />    
     <PackageReference Include="Onova" Version="2.6.2" />
   </ItemGroup>
 

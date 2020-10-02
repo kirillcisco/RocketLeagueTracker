@@ -195,9 +195,14 @@ namespace Tracker
 
             var users = JsonConvert.DeserializeObject<List<TrackedUser>>(settingString);
 
+            int i = 0;
             foreach (var user in users)
             {
+                if (user.SortOrder == null)
+                    user.SortOrder = i;
+
                 _users.Add(user);
+                i++;
             }
         }
 
