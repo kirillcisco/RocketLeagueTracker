@@ -13,10 +13,10 @@ namespace Tracker
             if(double.TryParse(parameter.ToString(), out double result))
             {
                 if(result > (double)value)
-                    return false;
+                    return true;
             }
 
-            return true;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

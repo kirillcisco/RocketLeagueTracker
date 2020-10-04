@@ -7,7 +7,7 @@ namespace Common.Models
 {
     public static class ViewModelMapper
     {
-        public static void TrackedUser(TrackedUser user,TrackedUserViewModel vm)
+        public static void TrackedUser(TrackedUser user, TrackedUserViewModel vm)
         {
             var defaultUri = @"https://trackercdn.com/cdn/tracker.gg/rocket-league/ranks/s4-0.png";
 
@@ -22,74 +22,56 @@ namespace Common.Models
                 vm.SortOrder = user.SortOrder;
 
                 var causal = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 0);
-                if (causal != null)
-                {
-                    vm.CasualMmr = causal.Stats.Rating.Value.ToString();
-                    vm.CasualMatchesPlayed = causal.Stats.MatchesPlayed.Value;
-                }
+                if (vm.CasualModel == null)
+                    vm.CasualModel = new RankViewModel();
+                vm.CasualModel.ImageUrl = causal?.Stats.Tier.Metadata.IconUrl?.ToString();
+                vm.CasualModel.Mmr = causal?.Stats.Rating.Value;
+                vm.CasualModel.MatchesPlayed = causal?.Stats.MatchesPlayed.Value;
+
 
                 var threes = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 13);
-                if (threes != null)
-                {
-                    vm.ThreesUri = threes.Stats.Tier.Metadata.IconUrl;
-                    vm.ThreesPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
-                    vm.ThreesTitle = threes.Stats.Tier.Metadata.Name;
-                    vm.ThreesMmr = threes.Stats.Rating.Value.ToString();
-                    vm.ThreesMatchesPlayed = threes.Stats.MatchesPlayed.Value;
-                }
-                else
-                {
-                    vm.ThreesUri = new Uri(defaultUri);
-                    vm.ThreesPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
-                    vm.ThreesTitle = "N/A";
-                    vm.ThreesMmr = "N/A";
-                    vm.ThreesMatchesPlayed = 0;
-                }
+                if (vm.ThreesModel == null)
+                    vm.ThreesModel = new RankViewModel();
+                vm.ThreesModel.ImageUrl = threes?.Stats.Tier.Metadata.IconUrl?.ToString();
+                vm.ThreesModel.Title = threes?.Stats.Tier.Metadata.Name;
+                vm.ThreesModel.Mmr = threes?.Stats.Rating.Value;
+                vm.ThreesModel.MatchesPlayed = threes?.Stats.MatchesPlayed.Value;
+                vm.ThreesModel.DivDown = threes?.Stats.Division.Metadata.DeltaDown;
+                vm.ThreesModel.DivUp = threes?.Stats.Division.Metadata.DeltaUp;
+                vm.ThreesModel.Division = threes?.Stats.Division.Metadata.Name;
+
+
 
                 var twos = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 11);
-                if (threes != null)
-                {
-                    vm.TwosUri = twos.Stats.Tier.Metadata.IconUrl;
-                    vm.TwosTitle = twos.Stats.Tier.Metadata.Name;
-                    vm.TwosMmr = twos.Stats.Rating.Value.ToString();
-                    vm.TwosMatchesPlayed = twos.Stats.MatchesPlayed.Value;
-                    vm.TwosPic = ImageManager.Instance().GetImageFromUri(vm.TwosUri.ToString());
-                }
-                else
-                {
-                    vm.TwosUri = new Uri(defaultUri);
-                    vm.TwosPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
-                    vm.TwosTitle = "N/A";
-                    vm.TwosMmr = "N/A";
-                    vm.TwosMatchesPlayed = 0;
-                }
+                if (vm.TwosModel == null)
+                    vm.TwosModel = new RankViewModel();
+                vm.TwosModel.ImageUrl = twos?.Stats.Tier.Metadata.IconUrl?.ToString();
+                vm.TwosModel.Title = twos?.Stats.Tier.Metadata.Name;
+                vm.TwosModel.Mmr = twos?.Stats.Rating.Value;
+                vm.TwosModel.MatchesPlayed = twos?.Stats.MatchesPlayed.Value;
+                vm.TwosModel.DivDown = twos?.Stats.Division.Metadata.DeltaDown;
+                vm.TwosModel.DivUp = twos?.Stats.Division.Metadata.DeltaUp;
+                vm.TwosModel.Division = twos?.Stats.Division.Metadata.Name;
 
                 var ones = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 10);
-                if (ones != null)
-                {
-                    vm.OnesUri = ones.Stats.Tier.Metadata.IconUrl;
-                    vm.OnesTitle = ones.Stats.Tier.Metadata.Name;
-                    vm.OnesMmr = ones.Stats.Rating.Value.ToString();
-                    vm.OnesMatchesPlayed = ones.Stats.MatchesPlayed.Value;
-                    vm.OnesPic = ImageManager.Instance().GetImageFromUri(vm.OnesUri.ToString());
-                }
-                else
-                {
-                    vm.OnesUri = new Uri(defaultUri);
-                    vm.OnesPic = ImageManager.Instance().GetImageFromUri(vm.ThreesUri.ToString());
-                    vm.OnesTitle = "N/A";
-                    vm.OnesMmr = "N/A";
-                    vm.OnesMatchesPlayed = 0;
-                }
+                if (vm.OnesModel == null)
+                    vm.OnesModel = new RankViewModel();
+                vm.OnesModel.ImageUrl = ones?.Stats.Tier.Metadata.IconUrl?.ToString();
+                vm.OnesModel.Title = ones?.Stats.Tier.Metadata.Name;
+                vm.OnesModel.Mmr = ones?.Stats.Rating.Value;
+                vm.OnesModel.MatchesPlayed = ones?.Stats.MatchesPlayed.Value;
+                vm.OnesModel.DivDown = ones?.Stats.Division.Metadata.DeltaDown;
+                vm.OnesModel.DivUp = ones?.Stats.Division.Metadata.DeltaUp;
+                vm.OnesModel.Division = ones?.Stats.Division.Metadata.Name;
+
 
                 var tournament = user.Data.Segments.FirstOrDefault(x => x.Attributes.PlaylistId == 34);
-                if (tournament != null)
-                {
-                    vm.TournamentsUri = tournament.Stats.Tier.Metadata.IconUrl;
-                    vm.TournamentsTitle = tournament.Stats.Tier.Metadata.Name;
-                    vm.TournamentsMmr = tournament.Stats.Rating.Value;
-                    vm.TournamentsPic = ImageManager.Instance().GetImageFromUri(vm.TournamentsUri.ToString());
-                }
+                if (vm.TournamentModel == null)
+                    vm.TournamentModel = new RankViewModel();
+                vm.TournamentModel.ImageUrl = tournament?.Stats.Tier.Metadata.IconUrl?.ToString();
+                vm.TournamentModel.Title = tournament?.Stats.Tier.Metadata.Name;
+                vm.TournamentModel.Mmr = tournament?.Stats.Rating.Value;
+
             }
             catch (Exception)
             {
@@ -103,6 +85,8 @@ namespace Common.Models
             model.MinimizeToTray = settings.MinimizeToTray.Value;
             model.RefreshMinutes = settings.RefreshMins.Value;
             model.SaveLocation = settings.SaveFolderLocation;
+            model.SelectedColor = settings.Color;
+            model.UseDarkMode = settings.UseDarkMode.Value;
         }
     }
 }

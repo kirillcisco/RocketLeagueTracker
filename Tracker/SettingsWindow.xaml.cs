@@ -15,8 +15,10 @@ namespace Tracker
         {
             _settings = settings;
             InitializeComponent();
+
             vm = new SettingsViewModel();
             vm.PropertyChanged += Vm_PropertyChanged;
+
             ViewModelMapper.SettingsViewModel(_settings, vm);
 
             var appTheme = ThemeManager.Current.DetectTheme(Application.Current);

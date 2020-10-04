@@ -34,7 +34,7 @@
     <Window.Resources>
         <local:TextBlockWeightConverter x:Key="WeightConverter"/>
         <local:NullImageConverter x:Key="nullImageConverter"/>
-        <local:IsEqualOrGreaterThanConverter x:Key="IsEqualOrGreaterThanConverter"/>        
+        <local:IsEqualOrGreaterThanConverter x:Key="IsEqualOrGreaterThanConverter"/>
     </Window.Resources>
 
     <Grid Margin="0,0,0,0">
@@ -167,90 +167,35 @@
                             <GridViewColumn Width="100" Header="Un-Ranked">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding CasualPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding CasualMatchesPlayed}"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding CasualMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                FontWeight="{Binding CasualMatchesPlayed, Converter={StaticResource WeightConverter}}"
-                                                TargetUpdated="TargetUpdated">
-                                            </TextBlock>
-                                        </DockPanel>
+                                        <local:RankDispaly Rank="{Binding CasualModel}"  />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Ranked 3v3">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding ThreesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding ThreesMatchesPlayed}"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="ThreesMmr" Grid.Row="1" Text="{Binding Path=ThreesMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                FontWeight="{Binding ThreesMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                TargetUpdated="TargetUpdated">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="{x:Type TextBlock}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding ThreesMatchesPlayed, Converter={StaticResource IsEqualOrGreaterThanConverter}, ConverterParameter=10}" Value="False">
-                                                                <Setter Property="Foreground" Value="Gray"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DockPanel>
+                                        <local:RankDispaly Rank="{Binding ThreesModel}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Ranked 2v2" >
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding TwosPic , Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding TwosMatchesPlayed}"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TwosMmr" Grid.Row="1" Text="{Binding TwosMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" 
-                                                VerticalAlignment="Center" 
-                                                FontWeight="{Binding TwosMatchesPlayed, Converter={StaticResource WeightConverter}}" 
-                                                TargetUpdated="TargetUpdated">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="{x:Type TextBlock}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding TwosMatchesPlayed, Converter={StaticResource IsEqualOrGreaterThanConverter}, ConverterParameter=10}" Value="False">
-                                                                <Setter Property="Foreground" Value="Gray"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DockPanel>
+                                        <local:RankDispaly Rank="{Binding TwosModel}"  />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Ranked 1v1">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding OnesPic, Converter={StaticResource nullImageConverter}}" Height="40" Width="40" ToolTip="{Binding OnesMatchesPlayed}" />
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="OnesMmr" Grid.Row="1" Text="{Binding OnesMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center" 
-                                                FontWeight="{Binding OnesMatchesPlayed, Converter={StaticResource WeightConverter}}"
-                                                TargetUpdated="TargetUpdated">
-                                                <TextBlock.Style>
-                                                    <Style TargetType="{x:Type TextBlock}">
-                                                        <Style.Triggers>
-                                                            <DataTrigger Binding="{Binding OnesMatchesPlayed, Converter={StaticResource IsEqualOrGreaterThanConverter}, ConverterParameter=10}" Value="False">
-                                                                <Setter Property="Foreground" Value="Gray"/>
-                                                            </DataTrigger>
-                                                        </Style.Triggers>
-                                                    </Style>
-                                                </TextBlock.Style>
-                                            </TextBlock>
-                                        </DockPanel>
+                                        <local:RankDispaly Rank="{Binding OnesModel}"  />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>
                             <GridViewColumn Width="100" Header="Tournaments">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <DockPanel>
-                                            <cachedImage:Image DockPanel.Dock="Top" Source="{Binding Path=TournamentsMmr, Converter={StaticResource nullImageConverter}}" Height="40" Width="40"/>
-                                            <TextBlock DockPanel.Dock="Bottom" x:Name="TournamentsMmr" Grid.Row="1" Text="{Binding TournamentsMmr, Mode=OneWay, NotifyOnTargetUpdated=True}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                        </DockPanel>
+                                        <local:RankDispaly Rank="{Binding TournamentModel}" />
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
                             </GridViewColumn>

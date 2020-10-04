@@ -27,6 +27,11 @@ namespace Common
 
         public byte[] GetImageFromUri(string url)
         {
+            if (string.IsNullOrEmpty(url))
+            {
+                return Task.Run(() => GetImageFromUriAsync("https://trackercdn.com/cdn/tracker.gg/rocket-league/ranks/s4-0.png").GetAwaiter().GetResult()).Result;
+            }
+
             return Task.Run(() => GetImageFromUriAsync(url).GetAwaiter().GetResult()).Result;
         }
 
@@ -65,7 +70,7 @@ namespace Common
                     using (Image image = Image.Load(sourceImage))
                     {
                         image.Mutate(x => x
-                             .Resize(50, 50));
+                             .Resize(40, 40));
 
                         image.Save(thumbnailFullPath);
                     }

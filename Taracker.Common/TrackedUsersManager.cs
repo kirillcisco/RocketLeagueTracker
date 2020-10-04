@@ -237,7 +237,6 @@ namespace Tracker
             }, token);
         }
 
-        //Todo move this to parallel instead of fire and forget task
         private bool RefreshTrackedUsers(bool force = false)
         {
             bool changes = false;
@@ -259,8 +258,9 @@ namespace Tracker
 
         private async Task RefreshUser(TrackedUser user)
         {
-            user.Data = await _searcher.Get(user.UserId, user.PlatForm);
+            user.Data = await _searcher.GetUser(user.UserId, user.PlatForm);
             user.LastUpdate = DateTime.Now;
+            System.Diagnostics.Debug.WriteLine($"Refreshed user {user.Data.PlatformInfo.PlatformUserHandle}");
         }
 
         #endregion
