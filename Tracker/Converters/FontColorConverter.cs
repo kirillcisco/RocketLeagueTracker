@@ -1,22 +1,22 @@
-﻿using System;
+﻿using ControlzEx.Theming;
+using System;
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Media;
 
 namespace Tracker
 {
-    class FontColorConverter : IValueConverter
+    class IsEqualOrGreaterThanConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            SolidColorBrush brush = new SolidColorBrush();
+        { 
+            if(double.TryParse(parameter.ToString(), out double result))
+            {
+                if(result > (double)value)
+                    return true;
+            }
 
-            if ((double?)value >= 10)
-                brush.Color = Colors.White;
-            else
-                brush.Color = Colors.Gray;
-
-            return brush;
+            return false;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

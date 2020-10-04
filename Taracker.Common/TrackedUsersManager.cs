@@ -58,7 +58,7 @@ namespace Tracker
         /// <summary>
         /// Start background refreshing
         /// </summary>
-        public async void Start()
+        public async void StartMonitor()
         {
             Load();
             var token = _tokenSource.Token;
@@ -68,7 +68,7 @@ namespace Tracker
         /// <summary>
         /// Stop background refreshing
         /// </summary>
-        public void Stop()
+        public void StopMonitor()
         {
             _tokenSource.Cancel();
         }
@@ -115,7 +115,7 @@ namespace Tracker
 
             var userSortIndex = user.SortOrder;
 
-            if(userSortIndex != null)
+            if (userSortIndex != null)
             {
                 foreach (var u in _users.Where(x => x.SortOrder > userSortIndex))
                 {
@@ -171,7 +171,7 @@ namespace Tracker
                 return;
 
             var itemToSwitch = Users.First(x => x.SortOrder == newIndex);
-            itemToSwitch.SortOrder = oldIndex;   
+            itemToSwitch.SortOrder = oldIndex;
             reference.SortOrder = newIndex;
 
             _ = Users;
@@ -195,9 +195,14 @@ namespace Tracker
 
             var users = JsonConvert.DeserializeObject<List<TrackedUser>>(settingString);
 
+            int i = 0;
             foreach (var user in users)
             {
+                if (user.SortOrder == null)
+                    user.SortOrder = i;
+
                 _users.Add(user);
+                i++;
             }
         }
 
@@ -218,38 +223,6 @@ namespace Tracker
 
         #region Private
 
-        private bool RefreshTrackedUsers(bool force = false)
-        {
-            bool changes = false;
-            var temp = _users.ToArray();
-
-            for (int i = 0; i < temp.Length - 1; i++)
-            {
-                var user = temp[i];
-                if (user.LastUpdate.HasValue && user.LastUpdate.Value < DateTime.Now.AddMinutes(-_settings.RefreshMins.Value) || force)
-                {
-                    try
-                    {
-#pragma warning disable CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                        Task.Run(async () =>
-                        {
-                            await RefreshUser(user);
-                        });
-#pragma warning restore CS4014 // Because this call is not awaited, execution of the current method continues before the call is completed
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine($"Error refreshing user: {ex.ToString()}");
-                    }
-
-                    _context.Send(x => _users[i] = user, null);
-                    changes = true;
-                }
-            }
-
-            return changes;
-        }
-
         private Task BackgroundProcessing(CancellationToken token)
         {
             return Task.Run(async () =>
@@ -264,10 +237,30 @@ namespace Tracker
             }, token);
         }
 
+        private bool RefreshTrackedUsers(bool force = false)
+        {
+            bool changes = false;
+            var temp = _users.ToArray();
+
+            Parallel.For(0, temp.Length, async i =>
+            {
+                var user = temp[i];
+                if (user.LastUpdate.HasValue && user.LastUpdate.Value < DateTime.Now.AddMinutes(-_settings.RefreshMins.Value) || force)
+                {
+                    await RefreshUser(user);
+                    _context.Send(x => _users[i] = user, null);
+                    changes = true;
+                }
+            });
+
+            return changes;
+        }
+
         private async Task RefreshUser(TrackedUser user)
         {
-            user.Data = await _searcher.Get(user.UserId, user.PlatForm);
+            user.Data = await _searcher.GetUser(user.UserId, user.PlatForm);
             user.LastUpdate = DateTime.Now;
+            System.Diagnostics.Debug.WriteLine($"Refreshed user {user.Data.PlatformInfo.PlatformUserHandle}");
         }
 
         #endregion

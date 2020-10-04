@@ -52,7 +52,7 @@ namespace Common.Search
 #pragma warning disable CS4014
                     Task.Run(async () =>
                     {
-                        var fullInfo = await Get(long.Parse(user.PlatformUserIdentifier), GetPlatform(user.PlatformSlug));
+                        var fullInfo = await GetUser(long.Parse(user.PlatformUserIdentifier), GetPlatform(user.PlatformSlug));
 
                         user.QuickDetails = new QuickDetails()
                         {
@@ -76,7 +76,7 @@ namespace Common.Search
         /// <param name="userid"></param>
         /// <param name="type"></param>
         /// <returns></returns>
-        public async Task<UserData> Get(long? userid, Platform type)
+        public async Task<UserData> GetUser(long? userid, Platform type)
         {
             var plat = GetPlatformString(type);
             var uri = new Uri($"https://api.tracker.gg/api/v2/rocket-league/standard/profile/{plat}/{userid.ToString()}");
@@ -94,6 +94,12 @@ namespace Common.Search
                 return userResponse.Data;
             }
         }
+
+        public async Task GetRankInfo()
+        {
+
+        }
+
 
         /// <summary>
         /// Get the text represnetation for the Enum.  These are the values that RlTracker recognize.

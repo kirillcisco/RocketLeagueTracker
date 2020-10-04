@@ -1,4 +1,4 @@
-﻿<Window x:Class="Tracker.SettingsWindow"
+﻿<mah:MetroWindow x:Class="Tracker.SettingsWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,16 +7,42 @@
         xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         xmlns:cachedImage="clr-namespace:CachedImage;assembly=CachedImage"
         mc:Ignorable="d"
-        Title="Settings for RL Tracker" Height="400" Width="620" ResizeMode="CanMinimize">
-
-    <Grid Background="#FF252525">
+        Title="Settings for RL Tracker" Height="400" Width="620" ResizeMode="CanMinimize" >
+    <Window.DataContext>
+        <local:SettingsViewModel/>
+    </Window.DataContext>
+    <Grid>
         <TextBlock Foreground="#FF494949" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,342,0,0" ><Run Text="Rocket League Tracker"/><LineBreak/><Run/></TextBlock>
-        <TextBlock Foreground="#FFFB8C8C" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,223,0,0" ><Run Text="You have unsaved changes"/><LineBreak/><Run/></TextBlock>
-        <CheckBox x:Name="DeleteReadyCheck" Content="I understand that this is permanently" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top"/>
-        <Button x:Name="DataDeleteButton" Content="Delete saved profile's data" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" Click="DataDeleteButton_Click" Width="218"/>
-        <Button x:Name="SaveSettingsButton" Content="Save settings" HorizontalAlignment="Center" Margin="0,247,0,0" VerticalAlignment="Top" Width="218"/>
-        <CheckBox Content="Close to tray menu" HorizontalAlignment="Left" Margin="41,104,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="FilesPathBox" HorizontalAlignment="Left" Margin="41,57,0,0" Text="TextBox" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Height="19"/>
-        <TextBlock Foreground="#FF494949" FontWeight="Bold" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="-20,38,0,0" ><Run Text="Path to save data"/><LineBreak/><Run/></TextBlock>
+        <TextBlock Foreground="#FFFB8C8C" FontWeight="Bold" Height="16" HorizontalAlignment="Center" VerticalAlignment="Top" Width="218"  TextAlignment="Center" Margin="0,223,0,0" Visibility="Hidden" ><Run Text="You have unsaved changes"/><LineBreak/><Run/></TextBlock>
+        <CheckBox x:Name="DeleteReadyCheck" Content="I understand that this is permanent" HorizontalAlignment="Center" Margin="0,311,0,0" VerticalAlignment="Top" Visibility="Hidden"/>
+        <Button x:Name="DataDeleteButton" Content="Delete saved profile's data" HorizontalAlignment="Center" Margin="0,279,0,0" VerticalAlignment="Top" Click="DataDeleteButton_Click" Width="218" Visibility="Hidden"/>
+        <Button x:Name="SaveSettingsButton" Click="SaveSettingsButton_Click" Content="Save settings" HorizontalAlignment="Center" Margin="0,247,0,0" VerticalAlignment="Top" Width="218"/>
+        <CheckBox Content="Close to tray menu" HorizontalAlignment="Left" Margin="10,57,0,0" VerticalAlignment="Top" IsChecked="{Binding MinimizeToTray,Mode=TwoWay}"/>
+        <TextBox x:Name="FilesPathBox" HorizontalAlignment="Left" Margin="10,26,0,0" Text="{Binding SaveLocation, Mode=TwoWay}" TextWrapping="Wrap" VerticalAlignment="Top" Width="405" Height="19"/>
+        <TextBlock Foreground="#FF494949" FontWeight="Bold" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Width="103"  TextAlignment="Center" Margin="5,10,0,0" ><Run Text="Path to save data"/><LineBreak/><Run/></TextBlock>
+        <Slider x:Name="RefreshMinsSlider" HorizontalAlignment="Left" Margin="117,87,0,0" VerticalAlignment="Top" Width="120" Maximum="10" Minimum="1" Value="{Binding RefreshMinutes, Mode=TwoWay}"/>
+        <Label x:Name="RefreshMinsLabel" Content="{Binding RefreshMinutes}" HorizontalAlignment="Left" Margin="242,86,0,0" VerticalAlignment="Top"/>
+        <Label Content="Refresh Minutes" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top"/>
+        <CheckBox Content="Dark mode" HorizontalAlignment="Left" Margin="10,167,0,0" VerticalContentAlignment="Center" VerticalAlignment="Top" IsChecked="{Binding UseDarkMode, Mode=TwoWay}" Width="95" Height="25" Checked="CheckBox_Checked"/>
+        <ComboBox Name="AccentColorComboBox" HorizontalAlignment="Left" Margin="152,166,0,0" VerticalAlignment="Top" Width="143" Text="{Binding SelectedColor,Mode=TwoWay}">
+            <ComboBoxItem Content="Red"/>
+            <ComboBoxItem Content="Green"/>
+            <ComboBoxItem Content="Blue"/>
+            <ComboBoxItem Content="Purple"/>
+            <ComboBoxItem Content="Orange"/>
+            <ComboBoxItem Content="Lime"/>
+            <ComboBoxItem Content="Emerald"/>
+            <ComboBoxItem Content="Teal"/>
+            <ComboBoxItem Content="Cobalt"/>
+            <ComboBoxItem Content= "Indigo"/>
+            <ComboBoxItem Content="Pink"/>
+            <ComboBoxItem Content="Crimson"/>
+            <ComboBoxItem Content="Yellow"/>
+            <ComboBoxItem Content="Brown"/>
+            <ComboBoxItem Content="Olive"/>
+            <ComboBoxItem Content="Mauve"/>
+            <ComboBoxItem Content="Taupe"/>
+            <ComboBoxItem Content="Sienna"/>
+        </ComboBox>
     </Grid>
-</Window>
+</mah:MetroWindow>

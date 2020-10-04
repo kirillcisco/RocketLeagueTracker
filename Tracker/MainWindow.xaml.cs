@@ -4,8 +4,6 @@ using Common.Search;
 using ControlzEx.Theming;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Options;
 using Onova;
 using Onova.Services;
 using System;
@@ -31,9 +29,9 @@ namespace Tracker
         private AppSettings _settings;
         private UpdateManager _manager;
 
-        public MainWindow(IOptions<AppSettings> settings)
+        public MainWindow(AppSettings settings)
         {
-            _settings = settings.Value;
+            _settings = settings;
 
             InitializeComponent();
             GithubButton.Content = "v" + Assembly.GetExecutingAssembly().GetName().Version.ToString();
@@ -41,35 +39,13 @@ namespace Tracker
             _tracker = new RlTracker();
             _trackedUsersManager = new TrackedUsersManager(_tracker, _settings);
             _trackedUsersManager.Users.CollectionChanged += Users_CollectionChanged;
-            _trackedUsersManager.Start();
+            _trackedUsersManager.StartMonitor();
 
             CachedImage.FileCache.AppCacheMode = CachedImage.FileCache.CacheMode.Dedicated;
 
             this.DataContext = vm;
             CheckForUpdates();
-        }
 
-        private async void CheckForUpdates()
-        {
-            if (!Debugger.IsAttached)
-            {
-                //todo modify so that we check for updates on a cycle and enable an update button to launch the update when its ready
-                _manager = new Onova.UpdateManager(new GithubPackageResolver("kevinlay7", "RocketLeagueTracker", "*.zip"), new ZipPackageExtractor());
-                var check = await _manager.CheckForUpdatesAsync();
-
-                if (!check.CanUpdate)
-                {
-                    return;
-                }
-
-                UpdateButton.Visibility = Visibility.Visible;
-            }
-        }
-
-        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
-        {
-            await this.ShowProgressAsync("Updating", "The window will disapper and it may take a minute beofre it re-opens.  Do not manually re-launch!");
-            await _manager.CheckPerformUpdateAsync();
         }
 
         private void Users_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -111,7 +87,7 @@ namespace Tracker
                     ViewModelMapper.TrackedUser(item, instance);
                 }
             }
-            if(e.Action == NotifyCollectionChangedAction.Move)
+            if (e.Action == NotifyCollectionChangedAction.Move)
             {
                 foreach (TrackedUser item in e.NewItems)
                 {
@@ -122,10 +98,39 @@ namespace Tracker
                         vm.Users.Add(instance);
                     }
                     ViewModelMapper.TrackedUser(item, instance);
+                    //force sort
+                    _ = vm.Users;
                 }
             }
             vm.LastUpdate = DateTime.Now;
+        }
 
+
+        private void CheckForUpdates()
+        {
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    _manager = new Onova.UpdateManager(new GithubPackageResolver("kevinlay7", "RocketLeagueTracker", "*.zip"), new ZipPackageExtractor());
+                    var check = await _manager.CheckForUpdatesAsync();
+
+                    if (!check.CanUpdate)
+                    {
+                        await Task.Delay(60000);
+                        continue;
+                    }
+
+                    UpdateButton.Dispatcher.Invoke(() => UpdateButton.Visibility = Visibility.Visible);
+                    break;
+                }         
+            });
+        }
+
+        private async void UpdateButton_Click(object sender, RoutedEventArgs e)
+        {
+            await this.ShowProgressAsync("Updating", "The window will disapper and it may take a minute beofre it re-opens.  Do not manually re-launch!");
+            await _manager.CheckPerformUpdateAsync();
         }
 
         private async void SearchButton_Click(object sender, RoutedEventArgs e)
@@ -163,7 +168,7 @@ namespace Tracker
         private void SettingsButton_Click(object sender, RoutedEventArgs e)
         {
             SettingsWindow settingswindow = new SettingsWindow(_settings);
-            settingswindow.Owner = GetWindow(this);
+            settingswindow.Owner = this;
             try
             {
                 settingswindow.Show();
@@ -178,7 +183,7 @@ namespace Tracker
             }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void TrackUserButton_Click(object sender, RoutedEventArgs e)
         {
             var searchData = ((FrameworkElement)sender).DataContext as SearchData;
 
@@ -195,16 +200,42 @@ namespace Tracker
             TrackedGrid.Visibility = Visibility.Visible;
         }
 
-        private void RemoveTrackedUserButton_Click(object sender, RoutedEventArgs e)
-        {
-            var selected = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
-            _trackedUsersManager.Remove(selected.UserId.ToString());
-        }
-
         private void ForceRefreshButton_Click(object sender, RoutedEventArgs e)
         {
             _trackedUsersManager.ForceRefresh();
         }
+
+        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
+        {
+            var url = "https://github.com/kevinLay7/RocketLeagueTracker";
+            try
+            {
+                System.Diagnostics.Process.Start(url);
+            }
+            catch (System.Exception other)
+            {
+                // hack because of this: https://github.com/dotnet/corefx/issues/10361
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                {
+                    url = url.Replace("&", "^&");
+                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+                {
+                    Process.Start("xdg-open", url);
+                }
+                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                {
+                    Process.Start("open", url);
+                }
+                else
+                {
+                    MessageBox.Show(other.ToString());
+                }
+            }
+        }
+
+        #region Context Menu Clicks
 
         private void MenuItem_Click(object sender, RoutedEventArgs e)
         {
@@ -241,38 +272,6 @@ namespace Tracker
             }
         }
 
-        private void LaunchGitHubSite(object sender, RoutedEventArgs e)
-        {
-            var url = "https://github.com/kevinLay7/RocketLeagueTracker";
-            try
-            {
-                System.Diagnostics.Process.Start(url);
-            }
-            catch (System.Exception other)
-            {
-                // hack because of this: https://github.com/dotnet/corefx/issues/10361
-                if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-                {
-                    url = url.Replace("&", "^&");
-                    Process.Start(new ProcessStartInfo("cmd", $"/c start {url}") { CreateNoWindow = true });
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
-                {
-                    Process.Start("xdg-open", url);
-                }
-                else if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
-                {
-                    Process.Start("open", url);
-                }
-                else
-                {
-                    MessageBox.Show(other.ToString());
-                }
-            }
-        }
-
-
-
         private void MoveUp_Click(object sender, RoutedEventArgs e)
         {
             var selectedItem = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
@@ -287,6 +286,21 @@ namespace Tracker
                 _trackedUsersManager.ShiftDown(selectedItem.UserId);
         }
 
+        private void RemoveTrackedUserButton_Click(object sender, RoutedEventArgs e)
+        {
+            var selected = TrackedUserGrid.SelectedItem as TrackedUserViewModel;
+            _trackedUsersManager.Remove(selected.UserId.ToString());
+        }
+
+
+        #endregion
+
+        /// <summary>
+        /// When a binding is updated, change the foreground and then switch it back to default to 
+        /// emphasise that a change happened
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TargetUpdated(object sender, DataTransferEventArgs e)
         {
             var accentColor = ThemeManager.Current.DetectTheme().PrimaryAccentColor;
